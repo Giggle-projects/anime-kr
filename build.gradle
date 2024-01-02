@@ -20,7 +20,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Google Guava
-    implementation 'com.google.guava:guava:11.0.2'
+    implementation 'com.google.guava:guava:33.0.0-jre'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'

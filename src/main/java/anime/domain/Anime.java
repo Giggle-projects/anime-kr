@@ -1,4 +1,4 @@
-package anime.entity;
+package anime.domain;
 
 public record Anime(
     String title,
