@@ -17,7 +17,8 @@ jobs:
       - name: Check for changes in specific files
         run: |
           CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-          ALLOWED_FILES=("file1.txt" "folder/file2.txt" "folder/file3.js")  # Specify the files you want to allow changes for
+          echo $CHANGED_FILES
+          ALLOWED_FILES=("data-files/data.md" "folder/file2.txt" "folder/file3.js")  # Specify the files you want to allow changes for
 
           for FILE in $CHANGED_FILES; do
             if [[ ! " ${ALLOWED_FILES[@]} " =~ " $FILE " ]]; then
