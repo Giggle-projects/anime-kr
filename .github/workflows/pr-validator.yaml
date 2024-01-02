@@ -16,13 +16,12 @@ jobs:
         run: echo Hello, world! dsafkldsafj
       - name: Check for changes in specific files
         run: |
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-          echo "Changed files: $CHANGED_FILES"
-          ALLOWED_FILES=("data-files/data.md" "folder/file2.txt" "folder/file3.js")  # Specify the files you want to allow changes for
-
-          for FILE in $CHANGED_FILES; do
-            if [[ ! " ${ALLOWED_FILES[@]} " =~ " $FILE " ]]; then
-              echo "Error: Changes to $FILE are not allowed."
+          CHANGED_FOLDERS=$(git diff --dirstat=files,0 --name-only ${{ github.event.before }} ${{ github.sha }})
+          ALLOWED_FOLDERS=("folder1" "folder2/subfolder")  # Specify the folders you want to allow changes for
+          echo "CHANGED_FOLDERS : $CHANGED_FOLDERS"
+          for FOLDER in $CHANGED_FOLDERS; do
+            if [[ ! " ${ALLOWED_FOLDERS[@]} " =~ " $FOLDER " ]]; then
+              echo "Error: Changes to $FOLDER are not allowed."
               exit 1
             fi
           done
