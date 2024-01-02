@@ -39,11 +39,4 @@ public class AnimeApi {
         var anime = animes.findById(id).orElseThrow();
         return ResponseEntity.ok(anime);
     }
-
-    @GetMapping("/api/random/{title}")
-    public ResponseEntity<Anime> random(@PathVariable String title) {
-        val anime = animes.random(title);
-        System.out.println(anime);
-        return ResponseEntity.ok(anime);
-    }
 }
