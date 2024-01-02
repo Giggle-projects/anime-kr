@@ -1,5 +1,6 @@
-package anime.domain;
+package anime.dao;
 
+import anime.dto.Anime;
 import anime.exception.DataFileException;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;

@@ -1,4 +1,4 @@
-package anime.domain;
+package anime.dto;
 
 public record Anime(
     Integer index,
