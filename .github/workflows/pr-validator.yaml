@@ -4,6 +4,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_run:
+    workflows: [ "Receive PR" ]
+    types:
+      - completed
 jobs:
   build:
     runs-on: ubuntu-latest
