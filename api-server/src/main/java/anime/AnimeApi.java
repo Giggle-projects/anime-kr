@@ -35,6 +35,7 @@ public class AnimeApi {
         return asResponse(animes.searchByLine(keyword));
     }
 
+
     @GetMapping("/api/anime/{id}")
     public ResponseEntity<AnimeResponse> find(@PathVariable int id) {
         return asResponse(animes.getById(id));
