@@ -2,6 +2,7 @@ package anime;
 
 import anime.dto.Anime;
 import anime.exception.AnimeException;
+import anime.utils.SlackUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +50,7 @@ public class AnimeApi {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
+        SlackUtils.send(e.getMessage());
         return ResponseEntity.internalServerError().body("interval server error");
     }
 }
