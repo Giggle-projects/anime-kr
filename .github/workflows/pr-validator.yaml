@@ -16,7 +16,7 @@ jobs:
         run: echo Hello, world!
       - name: Check for changes in specific files
         run: |
-          CHANGED_FOLDERS=$(git diff --dirstat=files,0 --name-only ${{ github.event.before }} ${{ github.sha }} | xargs -I {} dirname {} | sort -u)
+          CHANGED_FOLDERS=$(git diff --name-only ${{ github.event.before }}...${{ github.sha }} | xargs -I {} dirname {} | sort -u)
           ALLOWED_FOLDERS=("data-images" "data-files")
           echo "CHANGED_FOLDERS : $CHANGED_FOLDERS"
           for FOLDER in $CHANGED_FOLDERS; do
