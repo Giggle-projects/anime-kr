@@ -12,8 +12,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run a one-line script
         run: echo Hello, world! dsafkldsafj
-      - name: Get changed file names
+      - name: Get changed files
         run: |
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          CHANGED_FILES=$(git diff --name-status ${{ github.event.before }} ${{ github.sha }})
           echo "Changed files: $CHANGED_FILES"
       - run: exit 1
