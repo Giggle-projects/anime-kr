@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class AnimeController {
 
@@ -19,7 +21,12 @@ public class AnimeController {
     @GetMapping("/api/random")
     public ResponseEntity<Anime> random() {
         val anime = animes.random();
-        System.out.println(anime);
+        return ResponseEntity.ok(anime);
+    }
+
+    @GetMapping("/api/search")
+    public ResponseEntity<List<Anime>> search(String keyword) {
+        val anime = animes.searchByLine(keyword);
         return ResponseEntity.ok(anime);
     }
 }
