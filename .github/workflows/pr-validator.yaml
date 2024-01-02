@@ -17,7 +17,7 @@ jobs:
       - name: Check for changes in specific files
         run: |
           CHANGED_FOLDERS=$(git diff --dirstat=files,0 --name-only ${{ github.event.before }} ${{ github.sha }} | xargs -I {} dirname {} | sort -u)
-          ALLOWED_FOLDERS=("folder1" "folder2/subfolder")  # Specify the folders you want to allow changes for
+          ALLOWED_FOLDERS=("folder1" ".github/workflows")  # Specify the folders you want to allow changes for
           echo "CHANGED_FOLDERS : $CHANGED_FOLDERS"
           for FOLDER in $CHANGED_FOLDERS; do
             if [[ ! " ${ALLOWED_FOLDERS[@]} " =~ " $FOLDER " ]]; then
