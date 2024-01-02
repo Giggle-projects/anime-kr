@@ -19,8 +19,8 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
       - name: Get changed files
-          id: changed-files
-          uses: tj-actions/changed-files@v14.6
+        id: changed-files
+        uses: tj-actions/changed-files@v14.6
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
