@@ -15,7 +15,7 @@ public class AnimeDao {
 
     private final File file;
 
-    public AnimeDao(@Value("data.file.path") String dataFilePath) {
+    public AnimeDao(@Value("${data.file.path}") String dataFilePath) {
         file = new File(dataFilePath);
     }
 
