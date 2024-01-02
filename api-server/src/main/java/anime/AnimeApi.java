@@ -1,46 +1,44 @@
 package anime;
 
 import anime.dto.Anime;
+import anime.dto.AnimeResponse;
 import anime.exception.AnimeException;
 import anime.utils.SlackUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class AnimeApi {
 
+    private final String imageRootPath;
     private final Animes animes;
 
-    public AnimeApi(Animes animes) {
+    public AnimeApi(
+        @Value("${image.url.root.path}") String imageRootPath,
+        Animes animes
+    ) {
+        this.imageRootPath = imageRootPath;
         this.animes = animes;
     }
 
     @GetMapping("/api/random/{title}")
-    public ResponseEntity<Anime> random(@PathVariable Optional<String> title) {
-        if (title.isPresent()) {
-            final Anime anime = animes.randomByTitle(
-                    title.orElseThrow(() -> new AnimeException("title is not found"))
-            );
-            return ResponseEntity.ok(anime);
-        }
-        final Anime anime = animes.random();
-        return ResponseEntity.ok(anime);
+    public ResponseEntity<AnimeResponse> random(@PathVariable Optional<String> title) {
+        return asResponse(animes.random(title));
     }
 
     @GetMapping("/api/anime")
-    public ResponseEntity<List<Anime>> search(@RequestParam String keyword) {
-        var anime = animes.searchByLine(keyword);
-        return ResponseEntity.ok(anime);
+    public ResponseEntity<List<AnimeResponse>> search(@RequestParam String keyword) {
+        return asResponse(animes.searchByLine(keyword));
     }
 
     @GetMapping("/api/anime/{id}")
-    public ResponseEntity<Anime> find(@PathVariable int id) {
-        var anime = animes.findById(id)
-                .orElseThrow(() -> new AnimeException("id is not found"));
-        return ResponseEntity.ok(anime);
+    public ResponseEntity<AnimeResponse> find(@PathVariable int id) {
+        return asResponse(animes.getById(id));
     }
 
     @ExceptionHandler(AnimeException.class)
@@ -52,6 +50,18 @@ public class AnimeApi {
     public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
         SlackUtils.send(e.getMessage());
         return ResponseEntity.internalServerError().body("interval server error");
+    }
+
+    private ResponseEntity<AnimeResponse> asResponse(Anime anime) {
+        var response = AnimeResponse.of(anime, imageRootPath);
+        return ResponseEntity.ok(response);
+    }
+
+    private ResponseEntity<List<AnimeResponse>> asResponse(List<Anime> animes) {
+        var response = animes.stream()
+            .map(it -> AnimeResponse.of(it, imageRootPath))
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
     }
 }
 
