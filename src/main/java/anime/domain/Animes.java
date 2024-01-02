@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Component
 public class Animes {
@@ -43,5 +44,11 @@ public class Animes {
 
     public int size() {
         return animes.size();
+    }
+
+    public List<Anime> searchByLine(String keyword) {
+        return animes.values().stream()
+            .filter(it -> it.famousLine().contains(keyword))
+            .collect(Collectors.toList());
     }
 }
