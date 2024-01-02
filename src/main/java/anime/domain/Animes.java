@@ -3,26 +3,38 @@ package anime.domain;
 import lombok.val;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class Animes {
 
     private final Map<Integer, Anime> animes;
-    private final RandomAnimeCache valuesCache;
+    private final RandomAnimes randomAnimes;
 
     public Animes(AnimeDao animeDao) {
         animes = new ConcurrentHashMap<>();
+        final Map<String, List<Anime>> valuesByTitle = new ConcurrentHashMap<>();
+
         var i = animes.size() + 1;
         for (val anime : animeDao.readDataFile()) {
             animes.put(i++, anime);
+
+            var animeByTitle = valuesByTitle.getOrDefault(anime.title(), new ArrayList<>());
+            animeByTitle.add(anime);
+            valuesByTitle.put(anime.title(), animeByTitle);
         }
-        valuesCache = new RandomAnimeCache(new ArrayList<>(animes.values()));
+        randomAnimes = new RandomAnimes(new ArrayList<>(animes.values()), valuesByTitle);
     }
 
     public Anime random() {
-        return valuesCache.next();
+        return randomAnimes.next();
+    }
+
+    public Anime random(String title) {
+        return randomAnimes.next(title);
     }
 
     public Anime findById(int i) {

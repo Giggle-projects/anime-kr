@@ -5,6 +5,7 @@ import anime.domain.Animes;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,6 +20,13 @@ public class AnimeController {
     @GetMapping("/api/random")
     public ResponseEntity<Anime> random() {
         val anime = animes.random();
+        System.out.println(anime);
+        return ResponseEntity.ok(anime);
+    }
+
+    @GetMapping("/api/random/{title}")
+    public ResponseEntity<Anime> random(@PathVariable String title) {
+        val anime = animes.random(title);
         System.out.println(anime);
         return ResponseEntity.ok(anime);
     }
