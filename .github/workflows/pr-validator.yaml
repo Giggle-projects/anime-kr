@@ -18,6 +18,14 @@ jobs:
           fetch-depth: 0
       - name: Run a one-line script
         run: echo Hello, world!
+      - name: Get changed files
+          id: changed-files
+          uses: tj-actions/changed-files@v14.6
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
       - name: Check for changes in specific files
         run: |
           CHANGED_FOLDERS=$(git diff --name-only ${{ github.event.before }}...${{ github.sha }} | xargs -I {} dirname {} | sort -u)
