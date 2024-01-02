@@ -4,6 +4,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_run:
+    workflows: [ "Receive PR" ]
+    types:
+      - completed
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,16 +16,22 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v14.6
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
       - name: Check for changes in specific files
         run: |
-          CHANGED_FOLDERS=$(git diff --dirstat=files,0 --name-only ${{ github.event.before }} ${{ github.sha }} | xargs -I {} dirname {} | sort -u)
           ALLOWED_FOLDERS=("data-images" "data-files")
-          echo "CHANGED_FOLDERS : $CHANGED_FOLDERS"
-          for FOLDER in $CHANGED_FOLDERS; do
-            if [[ ! " ${ALLOWED_FOLDERS[@]} " =~ " $FOLDER " ]]; then
-              echo "Error: Changes to $FOLDER are not allowed."
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            folder_path=$(dirname "$file")
+            echo "CHANGED_FOLDERS : $folder_path"
+            if [[ ! " ${ALLOWED_FOLDERS[@]} " =~ " $folder_path " ]]; then
+              echo "Error: Changes to $file are not allowed."
               exit 1
             fi
           done
