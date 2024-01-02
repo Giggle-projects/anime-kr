@@ -2,7 +2,6 @@ package anime;
 
 import anime.dto.Anime;
 import anime.dto.AnimeResponse;
-import anime.exception.AnimeException;
 import anime.utils.SlackUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ public class AnimeApi {
         this.animes = animes;
     }
 
-    @GetMapping("/api/random/{title}")
+    @GetMapping({"/api/random", "/api/random/{title}"})
     public ResponseEntity<AnimeResponse> random(@PathVariable Optional<String> title) {
         return asResponse(animes.random(title));
     }
@@ -41,14 +40,15 @@ public class AnimeApi {
         return asResponse(animes.getById(id));
     }
 
-    @ExceptionHandler(AnimeException.class)
-    public ResponseEntity<String> animeExceptionHandler(AnimeException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
+//    @ExceptionHandler(AnimeException.class)
+//    public ResponseEntity<String> animeExceptionHandler(AnimeException e) {
+//        return ResponseEntity.badRequest().body(e.getMessage());
+//    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
         SlackUtils.send(e.getMessage());
+        e.printStackTrace();
         return ResponseEntity.internalServerError().body("interval server error");
     }
 

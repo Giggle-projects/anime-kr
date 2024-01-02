@@ -13,7 +13,7 @@ public class SecretEnvs {
     private static final Map<String, String> SECRET_ENVS = new HashMap<>();
 
     static {
-        final File file = new File("./env/secret.env.txt");
+        final File file = new File("./data-files/secret.env");
         try {
             Files.readLines(file, Charsets.UTF_8).stream()
                     .map(it -> it.split("="))

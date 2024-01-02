@@ -54,6 +54,9 @@ public class Animes {
 
     public Anime randomByTitle(String title) {
         var byTitle = findAllByTitle(title);
+        if(byTitle.isEmpty()) {
+            throw new AnimeException("Not exists anime title");
+        }
         return byTitle.get(ThreadLocalRandom.current().nextInt(byTitle.size()));
     }
 }
