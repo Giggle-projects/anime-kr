@@ -5,4 +5,4 @@
 - Gradle 8.5
 - Spring 2.7.9
 - Junit 5
-- Guava 11
+- Guava 1
