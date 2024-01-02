@@ -12,8 +12,14 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run a one-line script
         run: echo Hello, world! dsafkldsafj
-      - name: Get changed files
+      - name: Check for changes in specific files
         run: |
-          CHANGED_FILES=$(git diff --name-status ${{ github.event.before }} ${{ github.sha }})
-          echo "Changed files: $CHANGED_FILES"
-      - run: exit 1
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          ALLOWED_FILES=("file1.txt" "folder/file2.txt" "folder/file3.js")  # Specify the files you want to allow changes for
+
+          for FILE in $CHANGED_FILES; do
+            if [[ ! " ${ALLOWED_FILES[@]} " =~ " $FILE " ]]; then
+              echo "Error: Changes to $FILE are not allowed."
+              exit 1
+            fi
+          done
