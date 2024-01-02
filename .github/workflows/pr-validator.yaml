@@ -13,16 +13,16 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world! dsafkldsafj
       - name: Get changed file names
-          run: |
-            CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-            echo "Changed files: $CHANGED_FILES"
+        run: |
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          echo "Changed files: $CHANGED_FILES"
       - name: Verify if "data.md" is changed
-          run: |
-            if echo "$CHANGED_FILES" | grep -q "data.md"; then
-              echo "File 'data.md' has been changed."
-              # Add your actions for when 'data.md' is changed
-            else
-              echo "File 'data.md' is not changed."
-              # Add your actions for when 'data.md' is not changed
-            fi
+        run: |
+          if echo "$CHANGED_FILES" | grep -q "data.md"; then
+            echo "File 'data.md' has been changed."
+            # Add your actions for when 'data.md' is changed
+          else
+            echo "File 'data.md' is not changed."
+            # Add your actions for when 'data.md' is not changed
+          fi
       - run: exit 1
