@@ -5,4 +5,5 @@ RUN mkdir -p api-server
 COPY data-files data-files
 COPY data-images data-images
 COPY api-server/build/libs/*.jar api-server/app.jar
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","/api-server/app.jar"]
