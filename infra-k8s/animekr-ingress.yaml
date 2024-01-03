@@ -1,0 +1,34 @@
+piVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: animekr-ingress
+  namespace: animekr
+  annotations:
+    konghq.com/strip-path: 'false'
+spec:
+  ingressClassName: kong
+  rules:
+    - host: anime-kr.ecsimsw.com
+      http:
+        paths:
+          - path: /api
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: album-server-svc
+                port:
+                  number: 8084
+          - path: /api/storage
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: storage-server-svc
+                port:
+                  number: 8083
+          - path: /api/member
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: member-server-svc
+                port:
+                  number: 8082
