@@ -2,6 +2,7 @@ package anime;
 
 import anime.dto.Anime;
 import anime.dto.AnimeResponse;
+import anime.exception.AnimeException;
 import anime.utils.SlackUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -40,10 +41,10 @@ public class AnimeApi {
         return asResponse(animes.getById(id));
     }
 
-//    @ExceptionHandler(AnimeException.class)
-//    public ResponseEntity<String> animeExceptionHandler(AnimeException e) {
-//        return ResponseEntity.badRequest().body(e.getMessage());
-//    }
+    @ExceptionHandler(AnimeException.class)
+    public ResponseEntity<String> animeExceptionHandler(AnimeException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
