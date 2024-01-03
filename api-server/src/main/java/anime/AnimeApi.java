@@ -23,8 +23,6 @@ public class AnimeApi {
     ) {
         this.imageRootPath = imageRootPath;
         this.animes = animes;
-
-
     }
 
     @GetMapping({"/api/random", "/api/random/{title}"})
