@@ -48,6 +48,7 @@ public class AnimeApi {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
+        // TODO :: SLACK UTILS SHOULD BE BEAN, ABLE TO BE TURNED OFF BY PROFILE
         SlackUtils.send(e.getMessage());
         e.printStackTrace();
         return ResponseEntity.internalServerError().body("interval server error");
