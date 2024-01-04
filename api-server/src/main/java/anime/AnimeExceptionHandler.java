@@ -1,6 +1,7 @@
 package anime;
 
 import anime.exception.AnimeException;
+import anime.exception.DataFileException;
 import anime.utils.SlackUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,14 @@ public class AnimeExceptionHandler {
     public ResponseEntity<String> animeExceptionHandler(AnimeException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
+
+    @ExceptionHandler(DataFileException.class)
+    public ResponseEntity<String> datafileExceptionHandler(DataFileException e) {
+        SlackUtils.send(e.getMessage());
+        e.printStackTrace();
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<String> noResourceFoundHandler(NoResourceFoundException e) {

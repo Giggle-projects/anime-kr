@@ -3,6 +3,7 @@ package anime;
 import anime.dao.AnimeDao;
 import anime.dto.Anime;
 import anime.exception.AnimeException;
+import anime.exception.DataFileException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -49,12 +50,15 @@ public class Animes {
     }
 
     public Anime random() {
+        if (animes.isEmpty()) {
+            throw new DataFileException("file data is empty", new NullPointerException());
+        }
         return animes.get(ThreadLocalRandom.current().nextInt(animes.size()));
     }
 
     public Anime randomByTitle(String title) {
         var byTitle = findAllByTitle(title);
-        if(byTitle.isEmpty()) {
+        if (byTitle.isEmpty()) {
             throw new AnimeException("Not exists anime title");
         }
         return byTitle.get(ThreadLocalRandom.current().nextInt(byTitle.size()));
