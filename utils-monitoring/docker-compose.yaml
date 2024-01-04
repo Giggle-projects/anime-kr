@@ -3,7 +3,7 @@ services:
   anime-grafana:
     image: grafana/grafana:10.2.2
     ports:
-      - 9092:3000
+      - 9090:3000
     volumes:
       - ~/grafana-data:/var/lib/grafana
     environment:
@@ -18,7 +18,7 @@ services:
       - ./prometheus:/etc/prometheus
       - ~/prometheus-data/prometheus:/prometheus
     ports:
-      - 9093:9090
+      - 9092:9090
     command:
       - '--web.enable-lifecycle'
       - '--config.file=/etc/prometheus/prometheus.yaml'
