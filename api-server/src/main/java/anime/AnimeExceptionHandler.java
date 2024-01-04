@@ -2,7 +2,7 @@ package anime;
 
 import anime.exception.AnimeException;
 import anime.exception.DataFileException;
-import anime.utils.SlackUtils;
+import anime.notification.NotificationInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -13,6 +13,12 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @ControllerAdvice
 public class AnimeExceptionHandler {
 
+    private final NotificationInterface notificationInterface;
+
+    public AnimeExceptionHandler(NotificationInterface notificationInterface) {
+        this.notificationInterface = notificationInterface;
+    }
+
     @ExceptionHandler(AnimeException.class)
     public ResponseEntity<String> animeExceptionHandler(AnimeException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
@@ -20,11 +26,9 @@ public class AnimeExceptionHandler {
 
     @ExceptionHandler(DataFileException.class)
     public ResponseEntity<String> datafileExceptionHandler(DataFileException e) {
-        SlackUtils.send(e.getMessage());
-        e.printStackTrace();
+        notificationInterface.send(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
     }
-
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<String> noResourceFoundHandler(NoResourceFoundException e) {
@@ -39,8 +43,7 @@ public class AnimeExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
         // TODO :: SLACK UTILS SHOULD BE BEAN, ABLE TO BE TURNED OFF BY PROFILE
-        SlackUtils.send(e.getMessage());
-        e.printStackTrace();
+        notificationInterface.send(e.getMessage());
         return ResponseEntity.internalServerError().body("interval server error");
     }
 }
