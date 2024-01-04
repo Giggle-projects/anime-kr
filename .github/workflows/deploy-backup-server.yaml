@@ -27,7 +27,8 @@ jobs:
             
             if [ ! "$(docker ps -a -q -f name=anime-kr)" ]; then  
               if [ "$(docker ps -aq -f status=exited -f name=anime-kr)" ]; then  
-              # cleanup  docker rm anime-kr  
+              # cleanup  
+              docker rm anime-kr  
               fi
               # run your container
               retries=0
