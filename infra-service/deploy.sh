@@ -4,7 +4,7 @@
 SERVICE_NAMES=("anime-1" "anime-2" "anime-3")
 
 # Perform a health check by waiting for the service to be healthy
-HEALTH_CHECK_INTERVAL=1   # interval seconds
+HEALTH_CHECK_INTERVAL=3   # interval seconds
 MAX_RETRIES=10            # Maximum number of retries
 
 for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
@@ -27,6 +27,7 @@ for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
       api_health=$(curl -s "${HEALTH_CHECK_ENDPOINT}" | jq -r '.status')
       if [ "${is_container_running}" == "true" ] && [ "${api_health}" == "UP" ]; then
           echo "Service $SERVICE_NAME is healthy!"
+          break
       else
           sleep $HEALTH_CHECK_INTERVAL
           retries=$((retries + 1))
