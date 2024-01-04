@@ -11,13 +11,14 @@ SERVICE_NAME="anime-1"
 URL=localhost
 PORT=$(docker port $SERVICE_NAME | cut -d: -f2)
 HEALTH_CHECK_ENDPOINT=${URL}:${PORT}/actuator/health
-echo "Restart $SERVICE_NAME, health check with $HEALTH_CHECK_ENDPOINT"
 
 # Restart the specified service
+echo "Restart $SERVICE_NAME"
 docker-compose restart $SERVICE_NAME
 
 retries=0
 while [ $retries -lt $MAX_RETRIES ]; do
+    echo "Health check with $HEALTH_CHECK_ENDPOINT ..."
     is_container_running=$(docker inspect --format='{{.State.Running}}' "${SERVICE_NAME}")
     api_health=$(curl -s ${HEALTH_CHECK_ENDPOINT} | jq -r '.status | tostring')
     if [ "$is_container_running" = "true" && "$api_health" = "UP"]; then
