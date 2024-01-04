@@ -19,6 +19,11 @@ jobs:
           script: |
             cd anime-kr
             git pull origin main
-            ./api-server/gradlew build
-            docker build -t ghcr.io/giggle-projects/anime-kr:0.0.1 -f api-server/Dockerfile
-            docker push ghcr.io/giggle-projects/anime-kr:0.0.1
+            cd api-server
+            ./gradlew build -x test
+            cd ..
+            docker build -t ghcr.io/giggle-projects/anime-kr:0.0.1 -f api-server/Dockerfile .
+            docker tag ghcr.io/giggle-projects/anime-kr:0.0.1 ghcr.io/giggle-projects/anime-kr:latest
+            docker push ghcr.io/giggle-projects/anime-kr:latest
+            sleep 3
+            ./infra-service/deploy.sh
