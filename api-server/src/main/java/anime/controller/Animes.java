@@ -7,6 +7,7 @@ import anime.exception.DataFileException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -17,7 +18,10 @@ public class Animes {
     private final List<Anime> animes;
 
     public Animes(AnimeDao animeDao) {
-        animes = animeDao.readDataFile();
+        this.animes = animeDao.readDataFile();
+        if(this.animes.isEmpty()) {
+            throw new NoSuchElementException("file data is empty");
+        }
     }
 
     public Anime getById(int id) {
@@ -50,9 +54,6 @@ public class Animes {
     }
 
     public Anime random() {
-        if (animes.isEmpty()) {
-            throw new DataFileException("file data is empty", new NullPointerException());
-        }
         return animes.get(ThreadLocalRandom.current().nextInt(animes.size()));
     }
 

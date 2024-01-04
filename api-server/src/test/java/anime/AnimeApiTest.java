@@ -1,6 +1,8 @@
 package anime;
 
+import anime.alert.AlertManagerChain;
 import anime.controller.AnimeApi;
+import anime.controller.AnimeExceptionHandler;
 import anime.controller.Animes;
 import anime.dto.Anime;
 import anime.dto.AnimeResponse;
@@ -39,6 +41,7 @@ public class AnimeApiTest {
     void init() {
         mockMvc = MockMvcBuilders
             .standaloneSetup(new AnimeApi(IMAGE_ROOT_PATH, animes))
+            .setControllerAdvice(new AnimeExceptionHandler(new AlertManagerChain()))
             .build();
     }
 

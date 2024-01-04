@@ -8,21 +8,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Component
-public class AlertChain {
+public class AlertManagerChain {
 
     private final List<AlertManager> alerts;
 
-    public AlertChain() {
+    public AlertManagerChain() {
         this.alerts = new ArrayList<>();
     }
 
-    public AlertChain(List<AlertManager> alerts) {
+    public AlertManagerChain(List<AlertManager> alerts) {
         this.alerts = alerts;
     }
 
-    public AlertChain add(AlertManager alertManager) {
+    public AlertManagerChain add(AlertManager alertManager) {
         alerts.add(alertManager);
-        return new AlertChain(new LinkedList<>(alerts));
+        return new AlertManagerChain(new LinkedList<>(alerts));
     }
 
     @Async

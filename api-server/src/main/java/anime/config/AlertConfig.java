@@ -1,10 +1,12 @@
-package anime.alert;
+package anime.config;
 
-import anime.config.SecretEnvs;
+import anime.alert.AlertManagerChain;
+import anime.alert.AlertManager;
 import com.slack.api.Slack;
 import com.slack.api.webhook.Payload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +19,8 @@ public class AlertConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AlertConfig.class);
 
     @Bean
-    public AlertChain alertChain(List<AlertManager> alertManagers) {
-        var alertChain = new AlertChain();
+    public AlertManagerChain alertChain(List<AlertManager> alertManagers) {
+        var alertChain = new AlertManagerChain();
         for (var alertManager : alertManagers) {
             alertChain = alertChain.add(alertManager);
         }
@@ -27,12 +29,14 @@ public class AlertConfig {
 
     @ConditionalOnProperty(value = "slack.webhook.url")
     @Bean
-    public AlertManager slack() {
+    public AlertManager slack(
+        @Value("slack.webhook.url") String slackUrl
+    ) {
         return message -> {
             try {
                 var payload = Payload.builder().text(message).build();
                 var slackClient = Slack.getInstance();
-                slackClient.send(SecretEnvs.getEnv("slack.webhook.url"), payload);
+                slackClient.send(slackUrl, payload);
             } catch (Exception ignored) {
             }
         };

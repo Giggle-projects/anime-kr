@@ -1,6 +1,6 @@
 package anime.controller;
 
-import anime.alert.AlertChain;
+import anime.alert.AlertManagerChain;
 import anime.exception.AnimeException;
 import anime.exception.DataFileException;
 import org.springframework.http.HttpStatus;
@@ -8,25 +8,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class AnimeExceptionHandler {
 
-    private final AlertChain alertChain;
+    private final AlertManagerChain alertManagerChain;
 
-    public AnimeExceptionHandler(AlertChain alertChain) {
-        this.alertChain = alertChain;
+    public AnimeExceptionHandler(AlertManagerChain alertManagerChain) {
+        this.alertManagerChain = alertManagerChain;
     }
 
     @ExceptionHandler(AnimeException.class)
     public ResponseEntity<String> animeExceptionHandler(AnimeException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
-    @ExceptionHandler(DataFileException.class)
-    public ResponseEntity<String> datafileExceptionHandler(DataFileException e) {
-        alertChain.alert(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
@@ -35,14 +30,21 @@ public class AnimeExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<String> wrongRequestMethodHandler(HttpRequestMethodNotSupportedException e) {
+    @ExceptionHandler({HttpRequestMethodNotSupportedException.class, MethodArgumentTypeMismatchException.class})
+    public ResponseEntity<String> wrongRequestMethodHandler(Exception e) {
+        return ResponseEntity.badRequest().body("Invalid request parameters");
+    }
+
+    @ExceptionHandler(DataFileException.class)
+    public ResponseEntity<String> datafileExceptionHandler(DataFileException e) {
+        alertManagerChain.alert(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
-        alertChain.alert(e.getMessage());
+        e.printStackTrace();
+        alertManagerChain.alert(e.getMessage());
         return ResponseEntity.internalServerError().body("interval server error");
     }
 }
