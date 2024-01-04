@@ -21,7 +21,7 @@ while [ $retries -lt $MAX_RETRIES ]; do
     echo "Health check with $HEALTH_CHECK_ENDPOINT ..."
     is_container_running=$(docker inspect --format='{{.State.Running}}' "${SERVICE_NAME}")
     api_health=$(curl -s ${HEALTH_CHECK_ENDPOINT} | jq -r '.status | tostring')
-    if [ "$is_container_running" = "true" && "$api_health" = "UP"]; then
+    if [ "$is_container_running" -eq "true" && "$api_health" -eq "UP"]; then
         echo "$SERVICE_NAME is healthy!"
         break
     else
