@@ -17,4 +17,5 @@ jobs:
           passphrase:
           port: 2023
           script: |
+            cd ~/dev
             ./anime-kr/infra-service/deploy.sh
