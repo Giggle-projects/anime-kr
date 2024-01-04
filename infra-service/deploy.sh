@@ -25,6 +25,7 @@ for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
     # Restart the specified service
     docker-compose restart $SERVICE_NAME
     sleep INITIAL_SLEEP
+  fi
 
   # Check container status, API health with retry strategy
   retries=0
