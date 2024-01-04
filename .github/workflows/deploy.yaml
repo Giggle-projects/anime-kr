@@ -8,11 +8,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.4
+      - name: execute remote ssh
+        uses: appleboy/ssh-action@master
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: SSH into the server and run commands
-        run: |
-#          ssh -o StrictHostKeyChecking=no ${{ secrets.CLOUD_SERVER_USERNAME }}@${{ secrets.CLOUD_SERVER_IP }} "cd /path/to/your/app && git pull origin main && ./deploy.sh"
-          ssh -o StrictHostKeyChecking=no ${{ secrets.CLOUD_SERVER_USERNAME }}@${{ secrets.CLOUD_SERVER_IP }} "ls"
+          host: ${{ secrets.CLOUD_SERVER_IP }}
+          username: ${{ secrets.CLOUD_SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase:
+          port: 22
+          script: |
+            whoami
