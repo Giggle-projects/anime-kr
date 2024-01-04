@@ -2,11 +2,12 @@ package anime;
 
 import anime.dto.Anime;
 import anime.dto.AnimeResponse;
-import anime.exception.AnimeException;
-import anime.utils.SlackUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,19 +40,6 @@ public class AnimeApi {
     @GetMapping("/api/anime/{id}")
     public ResponseEntity<AnimeResponse> find(@PathVariable int id) {
         return asResponse(animes.getById(id));
-    }
-
-    @ExceptionHandler(AnimeException.class)
-    public ResponseEntity<String> animeExceptionHandler(AnimeException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
-        // TODO :: SLACK UTILS SHOULD BE BEAN, ABLE TO BE TURNED OFF BY PROFILE
-        SlackUtils.send(e.getMessage());
-        e.printStackTrace();
-        return ResponseEntity.internalServerError().body("interval server error");
     }
 
     private ResponseEntity<AnimeResponse> asResponse(Anime anime) {
