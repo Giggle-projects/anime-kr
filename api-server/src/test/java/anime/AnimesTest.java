@@ -2,7 +2,7 @@ package anime;
 
 import anime.dao.AnimeDao;
 import anime.dto.Anime;
-import org.checkerframework.checker.units.qual.A;
+import anime.exception.AnimeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -11,15 +11,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class AnimesTest {
@@ -32,12 +29,14 @@ class AnimesTest {
     Anime dummy3 = new Anime(3, "B", "this is test line 3", "imagePath");
     Anime dummy4 = new Anime(4, "C", "this is test line 4", "imagePath");
 
-    Animes animes;
+    List<Anime> dummies = List.of(dummy1, dummy2, dummy3, dummy4);
+
+    private Animes animes;
 
     @BeforeEach
-    private void init() {
+    public void init() {
         Mockito.when(animeDao.readDataFile())
-            .thenReturn(List.of(dummy1, dummy2, dummy3, dummy4));
+                .thenReturn(dummies);
         animes = new Animes(animeDao);
     }
 
@@ -75,11 +74,75 @@ class AnimesTest {
         }
     }
 
-    @DisplayName("애니 제목으로 검색할 수 있다")
-    @Test
-    void searchByTitle() {
-        var animes = new Animes(animeDao);
-        var result = animes.findAllByTitle("A");
-        assertThat(result).isEqualTo(List.of(dummy1, dummy2));
+    @DisplayName("애니 제목으로 검색할 수 있다.")
+    @Nested
+    class searchByTitle {
+
+        @DisplayName("애니 제목으로 검색할 수 있다.")
+        @Test
+        void searchByTitle1() {
+            var result = animes.findAllByTitle("A");
+            assertThat(result).isEqualTo(List.of(dummy1, dummy2));
+        }
+
+        @DisplayName("검색 결과가 없는 경우 빈 리스트를 반환한다.")
+        @Test
+        void searchByTitle2() {
+            var result = animes.findAllByTitle("this is not exist");
+            assertThat(result).isEqualTo(List.of());
+        }
+
+        @DisplayName("제목이 null 인 경우, 빈 리스트를 반환한다.")
+        @Test
+        void searchByTitle3() {
+            var result = animes.findAllByTitle(null);
+            assertThat(result).isEqualTo(List.of());
+        }
+    }
+
+    @DisplayName("인덱스 번호로 검색할 수 있다.")
+    @Nested
+    class searchById {
+
+        @DisplayName("애니 인덱스 번호로 검색할 수 있다.")
+        @Test
+        void searchById1() {
+            var result = animes.getById(1);
+            assertThat(result).isEqualTo(dummy1);
+        }
+
+        @DisplayName("존재하지 않은 인덱스 번호로 검색할 경우, AE 예외를 발생시킨다.")
+        @Test
+        void searchById2() {
+            assertThatThrownBy(
+                    () -> animes.getById(Integer.MAX_VALUE)
+            ).isInstanceOf(AnimeException.class);
+        }
+    }
+
+    @DisplayName("랜덤으로 조회할 수 있다.")
+    @Nested
+    class SearchRandom {
+
+        @DisplayName("조회시 랜덤으로 조회된 데이터를 조회할 수 있다.")
+        @Test
+        void searchRandom1() {
+
+            for (int i = 0; i < 5; i++) {
+                var result = animes.random();
+                assertThat(dummies.contains(result)).isTrue();
+            }
+        }
+
+        @DisplayName("조회시 제목을 통해 제목에 해당하는 랜덤값을 조회할 수 있다.")
+        @Test
+        void searchRandom2() {
+
+            for (int i = 0; i < 5; i++) {
+                var title = "A";
+                var result = animes.random(Optional.of(title));
+                assertThat(result.title()).isEqualTo(title);
+            }
+        }
     }
 }
