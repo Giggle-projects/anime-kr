@@ -1,8 +1,8 @@
 package anime;
 
+import anime.alert.AlertChain;
 import anime.exception.AnimeException;
 import anime.exception.DataFileException;
-import anime.notification.NotificationInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -13,10 +13,10 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @ControllerAdvice
 public class AnimeExceptionHandler {
 
-    private final NotificationInterface notificationInterface;
+    private final AlertChain alertChain;
 
-    public AnimeExceptionHandler(NotificationInterface notificationInterface) {
-        this.notificationInterface = notificationInterface;
+    public AnimeExceptionHandler(AlertChain alertChain) {
+        this.alertChain = alertChain;
     }
 
     @ExceptionHandler(AnimeException.class)
@@ -26,7 +26,7 @@ public class AnimeExceptionHandler {
 
     @ExceptionHandler(DataFileException.class)
     public ResponseEntity<String> datafileExceptionHandler(DataFileException e) {
-        notificationInterface.send(e.getMessage());
+        alertChain.alert(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
@@ -43,7 +43,7 @@ public class AnimeExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
         // TODO :: SLACK UTILS SHOULD BE BEAN, ABLE TO BE TURNED OFF BY PROFILE
-        notificationInterface.send(e.getMessage());
+        alertChain.alert(e.getMessage());
         return ResponseEntity.internalServerError().body("interval server error");
     }
 }

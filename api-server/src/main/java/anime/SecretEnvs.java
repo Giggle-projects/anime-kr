@@ -1,4 +1,4 @@
-package anime.notification;
+package anime;
 
 import anime.exception.DataFileException;
 import com.google.common.base.Charsets;
