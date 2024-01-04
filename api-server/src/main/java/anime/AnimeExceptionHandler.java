@@ -17,21 +17,21 @@ public class AnimeExceptionHandler {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
-        // TODO :: SLACK UTILS SHOULD BE BEAN, ABLE TO BE TURNED OFF BY PROFILE
-        SlackUtils.send(e.getMessage());
-        e.printStackTrace();
-        return ResponseEntity.internalServerError().body("interval server error");
-    }
-
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<String> noResourceFoundHandler(NoResourceFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<String> wrongRequestMethod(HttpRequestMethodNotSupportedException e) {
+    public ResponseEntity<String> wrongRequestMethodHandler(HttpRequestMethodNotSupportedException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
+        // TODO :: SLACK UTILS SHOULD BE BEAN, ABLE TO BE TURNED OFF BY PROFILE
+        SlackUtils.send(e.getMessage());
+        e.printStackTrace();
+        return ResponseEntity.internalServerError().body("interval server error");
     }
 }
