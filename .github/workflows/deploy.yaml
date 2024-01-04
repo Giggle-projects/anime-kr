@@ -1,9 +1,9 @@
-name: user-pr-validator
+name: deploy
 on:
   push:
     branches: [ main ]
 jobs:
-  deploy:
+  ssh-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -17,5 +17,8 @@ jobs:
           passphrase:
           port: 22
           script: |
+            cd anime-kr
             git pull origin main
-            ./infra-service/deploy.sh
+            ./api-server/gradlew build
+            docker build -t ghcr.io/giggle-projects/anime-kr:0.0.1 -f api-server/Dockerfile
+            docker push ghcr.io/giggle-projects/anime-kr:0.0.1
