@@ -19,14 +19,14 @@ public class Animes {
         animes = animeDao.readDataFile();
     }
 
-    public Optional<Anime> findById(int id) {
-        return animes.stream()
-            .filter(it -> it.index().equals(id))
-            .findAny();
-    }
-
     public Anime getById(int id) {
         return findById(id).orElseThrow(() -> new AnimeException("id is not found"));
+    }
+
+    private Optional<Anime> findById(int id) {
+        return animes.stream()
+                .filter(it -> it.index().equals(id))
+                .findAny();
     }
 
     public List<Anime> searchByLine(String keyword) {
