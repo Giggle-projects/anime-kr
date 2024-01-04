@@ -24,6 +24,7 @@ jobs:
             cd ..
             docker build -t ghcr.io/giggle-projects/anime-kr:0.0.1 -f api-server/Dockerfile .
             docker tag ghcr.io/giggle-projects/anime-kr:0.0.1 ghcr.io/giggle-projects/anime-kr:latest
-
+            
             cd infra-backup
+            chmod +x ./deploy-backup.sh
             ./deploy-backup.sh
