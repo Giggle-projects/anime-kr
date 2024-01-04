@@ -25,7 +25,6 @@ public class AnimeExceptionHandler {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
-
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<String> noResourceFoundHandler(NoResourceFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
