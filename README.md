@@ -1,18 +1,16 @@
 ### Features
-
-- [ ] Api server
-- [ ] Application test code
-- [ ] Add data pull request validator with GA
-- [ ] Auto container image builder with GA
-- [ ] Deployment backup server
-- [ ] k8s deployment
-- [ ] k8s HPA
-- [ ] Gateway
-- [ ] Gateway rate limit
-- [ ] Gateway health check and bypass to backup server
+- [x] Api server CRUD
+- [ ] Api server Alert manager
+- [x] Application test code
+- [x] Add data pull request validator with GA
+- [x] Deployment prod server / infra - services
+- [x] Deployment backup server 
+- [x] Rolling update deploy script
+- [x] Gateway
+- [x] Gateway rate limit
+- [x] Gateway health check and route to backup server
+- [ ] Auto deployment github actions script
+- [ ] Auto container image builder with github actions
 - [ ] Prometehus, grafana
 - [ ] Loki
 - [ ] Logging
-- [ ] K6 stress test and report
-- [ ] Draw architecture
-- [ ] TLS
