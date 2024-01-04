@@ -1,0 +1,35 @@
+name: deploy-backup
+on:
+  push:
+    branches: [ main ]
+jobs:
+  ssh-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: execute remote ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CLOUD_SERVER_IP }}
+          username: ${{ secrets.CLOUD_SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase:
+          port: 22
+          script: |
+            cd anime-kr
+            git pull
+            cd api-server
+            ./gradlew build -x test
+            cd ..
+            docker build -t ghcr.io/giggle-projects/anime-kr:0.0.1 -f api-server/Dockerfile .
+            docker tag ghcr.io/giggle-projects/anime-kr:0.0.1 ghcr.io/giggle-projects/anime-kr:latest
+            
+            if [ ! "$(docker ps -a -q -f name=anime-kr)" ]; then
+              if [ "$(docker ps -aq -f status=exited -f name=anime-kr)" ]; then
+              # cleanup
+              docker rm anime-kr
+              fi
+            # run your container
+            docker run -d --name anime-kr -p 8080:8080 ghcr.io/giggle-projects/anime-kr:latest
+            fi
