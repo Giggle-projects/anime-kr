@@ -4,6 +4,7 @@
 SERVICE_NAMES=("anime-1" "anime-2" "anime-3")
 
 # Perform a health check by waiting for the service to be healthy
+INITIAL_SLEEP=20
 HEALTH_CHECK_INTERVAL=3   # interval seconds
 MAX_RETRIES=10            # Maximum number of retries
 
@@ -17,7 +18,7 @@ for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
 
   # Restart the specified service
   docker-compose restart $SERVICE_NAME
-  sleep 10
+  sleep INITIAL_SLEEP
 
   # Check container status, API health with retry strategy
   retries=0
