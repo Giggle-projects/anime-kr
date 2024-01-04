@@ -16,9 +16,9 @@ fi
 # Check for any process using port 8080
 PID_8080=$(lsof -i :8080 -t)
 
-if [ ! -z "$PID_8080" ] ]; then
-  for PID in PID_8080; do
-    kill -9 PID
+if [ ! -z "$PID_8080" ] ; then
+  for $PID in $PID_8080; do
+    kill -9 $PID
   done
 fi
 
