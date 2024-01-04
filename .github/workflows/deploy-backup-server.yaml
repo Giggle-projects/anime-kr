@@ -1,4 +1,4 @@
-name: deploy
+name: deploy-backup
 on:
   push:
     branches: [ main ]
