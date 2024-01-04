@@ -4,12 +4,12 @@ services:
   api-1:
     image: ghcr.io/giggle-projects/anime-kr:0.0.1
     ports:
-      - "18081:80"
+      - "18081:8080"
   api-2:
     image: ghcr.io/giggle-projects/anime-kr:0.0.1
     ports:
-      - "18082:80"
+      - "18082:8080"
   api-3:
     image: ghcr.io/giggle-projects/anime-kr:0.0.1
     ports:
-      - "18083:80"
+      - "18083:8080"
