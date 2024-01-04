@@ -24,12 +24,9 @@ for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
   while [ $retries -lt $MAX_RETRIES ]; do
       echo "Health check with $HEALTH_CHECK_ENDPOINT ..."
       is_container_running=$(docker inspect --format='{{.State.Running}}' "${SERVICE_NAME}")
-      api_health=$(curl -s ${HEALTH_CHECK_ENDPOINT} | jq -r '.status | tostring')
-      echo "$is_container_running"
-      echo "$api_health"
+      api_health=$(curl -s $HEALTH_CHECK_ENDPOINT | jq -r '.status')
       if [ "${is_container_running}" == "true" ] && [ "${api_health}" == "UP" ]; then
           echo "Service $SERVICE_NAME is healthy!"
-          break
       else
           sleep $HEALTH_CHECK_INTERVAL
           retries=$((retries + 1))
