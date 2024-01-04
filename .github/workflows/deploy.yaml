@@ -17,4 +17,5 @@ jobs:
           passphrase:
           port: 22
           script: |
-            whoami
+            git pull origin main
+            ./infra-service/deploy.sh
