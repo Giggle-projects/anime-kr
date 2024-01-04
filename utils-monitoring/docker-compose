@@ -1,0 +1,27 @@
+version: '3'
+services:
+  anime-grafana:
+    image: grafana/grafana:10.2.2
+    ports:
+      - 9092:3000
+    volumes:
+      - ~/grafana-data:/var/lib/grafana
+    environment:
+      - GF_SERVER_ROOT_URL=http://localhost:9098
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  anime-prometheus:
+    image: prom/prometheus:v2.48.0
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - ~/prometheus-data/prometheus:/prometheus
+    ports:
+      - 9093:9090
+    command:
+      - '--web.enable-lifecycle'
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
