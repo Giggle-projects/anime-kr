@@ -2,17 +2,17 @@ version: '3'
 
 services:
   anime-1:
-    image: ghcr.io/giggle-projects/anime-kr:0.0.1
+    image: ghcr.io/giggle-projects/anime-kr:latest
     container_name: "anime-1"
     ports:
       - "18081:8080"
   anime-2:
-    image: ghcr.io/giggle-projects/anime-kr:0.0.1
+    image: ghcr.io/giggle-projects/anime-kr:latest
     container_name: "anime-2"
     ports:
       - "18082:8080"
   anime-3:
-    image: ghcr.io/giggle-projects/anime-kr:0.0.1
+    image: ghcr.io/giggle-projects/anime-kr:latest
     container_name: "anime-3"
     ports:
       - "18083:8080"
