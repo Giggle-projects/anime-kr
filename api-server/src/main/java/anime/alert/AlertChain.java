@@ -1,9 +1,13 @@
 package anime.alert;
 
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+@Component
 public class AlertChain {
 
     private final List<AlertManager> alerts;
@@ -21,6 +25,7 @@ public class AlertChain {
         return new AlertChain(new LinkedList<>(alerts));
     }
 
+    @Async
     public void alert(String message) {
         for (var alert : alerts) {
             try {

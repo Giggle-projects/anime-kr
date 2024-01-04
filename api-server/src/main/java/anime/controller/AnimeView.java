@@ -1,4 +1,4 @@
-package anime;
+package anime.controller;
 
 import anime.dto.AnimeResponse;
 import org.springframework.beans.factory.annotation.Value;

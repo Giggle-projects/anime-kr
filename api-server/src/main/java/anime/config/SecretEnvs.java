@@ -1,4 +1,4 @@
-package anime;
+package anime.config;
 
 import anime.exception.DataFileException;
 import com.google.common.base.Charsets;
@@ -16,8 +16,8 @@ public class SecretEnvs {
         final File file = new File("./data-files/secret.env");
         try {
             Files.readLines(file, Charsets.UTF_8).stream()
-                    .map(it -> it.split("="))
-                    .forEach(it -> SECRET_ENVS.put(it[0], it[1]));
+                .map(it -> it.split("="))
+                .forEach(it -> SECRET_ENVS.put(it[0], it[1]));
         } catch (Exception e) {
             throw new DataFileException("Failed to load data file", e);
         }

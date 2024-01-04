@@ -1,5 +1,6 @@
 package anime;
 
+import anime.controller.Animes;
 import anime.dao.AnimeDao;
 import anime.dto.Anime;
 import anime.exception.AnimeException;
@@ -21,22 +22,19 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ExtendWith(MockitoExtension.class)
 class AnimesTest {
 
-    @Mock
-    private AnimeDao animeDao;
-
     Anime dummy1 = new Anime(1, "A", "this is test line 1", "imagePath");
     Anime dummy2 = new Anime(2, "A", "this is test line 2", "imagePath");
     Anime dummy3 = new Anime(3, "B", "this is test line 3", "imagePath");
     Anime dummy4 = new Anime(4, "C", "this is test line 4", "imagePath");
-
     List<Anime> dummies = List.of(dummy1, dummy2, dummy3, dummy4);
-
+    @Mock
+    private AnimeDao animeDao;
     private Animes animes;
 
     @BeforeEach
     public void init() {
         Mockito.when(animeDao.readDataFile())
-                .thenReturn(dummies);
+            .thenReturn(dummies);
         animes = new Animes(animeDao);
     }
 
@@ -115,7 +113,7 @@ class AnimesTest {
         @Test
         void searchById2() {
             assertThatThrownBy(
-                    () -> animes.getById(Integer.MAX_VALUE)
+                () -> animes.getById(Integer.MAX_VALUE)
             ).isInstanceOf(AnimeException.class);
         }
     }

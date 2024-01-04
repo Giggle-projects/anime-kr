@@ -1,4 +1,4 @@
-package anime;
+package anime.controller;
 
 import anime.dao.AnimeDao;
 import anime.dto.Anime;
@@ -26,8 +26,8 @@ public class Animes {
 
     private Optional<Anime> findById(int id) {
         return animes.stream()
-                .filter(it -> it.index().equals(id))
-                .findAny();
+            .filter(it -> it.index().equals(id))
+            .findAny();
     }
 
     public List<Anime> searchByLine(String keyword) {

@@ -1,4 +1,4 @@
-package anime;
+package anime.controller;
 
 import anime.alert.AlertChain;
 import anime.exception.AnimeException;
@@ -42,7 +42,6 @@ public class AnimeExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> unhandledServerError(IllegalArgumentException e) {
-        // TODO :: SLACK UTILS SHOULD BE BEAN, ABLE TO BE TURNED OFF BY PROFILE
         alertChain.alert(e.getMessage());
         return ResponseEntity.internalServerError().body("interval server error");
     }

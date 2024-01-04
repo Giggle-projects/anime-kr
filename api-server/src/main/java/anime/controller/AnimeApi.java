@@ -1,4 +1,4 @@
-package anime;
+package anime.controller;
 
 import anime.dto.Anime;
 import anime.dto.AnimeResponse;

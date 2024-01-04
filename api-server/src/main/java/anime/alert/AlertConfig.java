@@ -1,6 +1,6 @@
 package anime.alert;
 
-import anime.SecretEnvs;
+import anime.config.SecretEnvs;
 import com.slack.api.Slack;
 import com.slack.api.webhook.Payload;
 import org.slf4j.Logger;
