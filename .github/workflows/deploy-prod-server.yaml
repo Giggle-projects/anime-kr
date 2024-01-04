@@ -11,20 +11,10 @@ jobs:
       - name: execute remote ssh
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.CLOUD_SERVER_IP }}
-          username: ${{ secrets.CLOUD_SERVER_USERNAME }}
+          host: ${{ secrets.PROD_SERVER_IP }}
+          username: ${{ secrets.PROD_SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase:
-          port: 22
+          port: 2023
           script: |
-            cd anime-kr
-            git pull origin main
-            cd api-server
-            ./gradlew build -x test
-            cd ..
-            docker build -t ghcr.io/giggle-projects/anime-kr:0.0.1 -f api-server/Dockerfile .
-            docker tag ghcr.io/giggle-projects/anime-kr:0.0.1 ghcr.io/giggle-projects/anime-kr:latest
-            docker push ghcr.io/giggle-projects/anime-kr:latest
-            sleep 3
-            cd infra-service
-            ./deploy.sh
+            ./anime-kr/infra-service/deploy.sh
