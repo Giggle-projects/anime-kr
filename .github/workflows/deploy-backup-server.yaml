@@ -26,7 +26,6 @@ jobs:
             docker tag ghcr.io/giggle-projects/anime-kr:0.0.1 ghcr.io/giggle-projects/anime-kr:latest
 
             cd infra-service
-            #!/bin/bash
 
           # Define Container name
             CONTAINER_NAME="anime-kr"
