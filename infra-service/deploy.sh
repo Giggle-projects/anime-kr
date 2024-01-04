@@ -17,18 +17,14 @@ for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
 
   # Restart the specified service
   docker-compose restart $SERVICE_NAME
-  sleep $HEALTH_CHECK_INTERVAL
+  sleep 10
 
   # Check container status, API health with retry strategy
   retries=0
   while [ $retries -lt $MAX_RETRIES ]; do
       echo "Health check with $HEALTH_CHECK_ENDPOINT ..."
       is_container_running=$(docker inspect --format='{{.State.Running}}' "${SERVICE_NAME}")
-      fuck=$(curl "${HEALTH_CHECK_ENDPOINT}")
-      echo "$fuck"
       api_health=$(curl -s "${HEALTH_CHECK_ENDPOINT}" | jq -r '.status')
-      echo "$is_container_running"
-      echo "$api_health"
       if [ "${is_container_running}" == "true" ] && [ "${api_health}" == "UP" ]; then
           echo "Service $SERVICE_NAME is healthy!"
       else
