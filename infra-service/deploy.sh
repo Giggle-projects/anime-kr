@@ -20,12 +20,11 @@ for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
   if [ "${is_init_container_running}" == "true" ]; then
       # Restart the specified service
       docker-compose restart $SERVICE_NAME
-      sleep INITIAL_SLEEP
   else
       # Turn on the service if service is not running from beginning
       docker-compose up -d $SERVICE_NAME
-      sleep INITIAL_SLEEP
   fi
+  sleep $INITIAL_SLEEP
 
   # Check container status, API health with retry strategy
   retries=0
