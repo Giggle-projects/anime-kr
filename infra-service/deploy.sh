@@ -16,9 +16,15 @@ for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
   PORT=$(docker port $SERVICE_NAME | cut -d: -f2)
   HEALTH_CHECK_ENDPOINT=${URL}:${PORT}/actuator/health
 
-  # Restart the specified service
-  docker-compose restart $SERVICE_NAME
-  sleep INITIAL_SLEEP
+  is_init_container_running=$(docker inspect --format='{{.State.Running}}' "${SERVICE_NAME}")
+  if [ "${is_init_container_running}" == "true" ]; then
+    # Turn on the service if service is not running from beginning
+    docker-compose up $SERVICE_NAME -d
+    sleep INITIAL_SLEEP
+  else
+    # Restart the specified service
+    docker-compose restart $SERVICE_NAME
+    sleep INITIAL_SLEEP
 
   # Check container status, API health with retry strategy
   retries=0
