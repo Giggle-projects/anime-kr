@@ -1,7 +1,5 @@
 package anime.controller;
 
-import anime.accessCount.Access;
-import anime.accessCount.AccessCount;
 import anime.dto.Anime;
 import anime.dto.AnimeResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Access
 @RestController
 public class AnimeApi {
 
@@ -43,12 +40,6 @@ public class AnimeApi {
     @GetMapping("/api/anime/{id}")
     public ResponseEntity<AnimeResponse> find(@PathVariable int id) {
         return asResponse(animes.getById(id));
-    }
-
-    @GetMapping("/api/access/count")
-    public ResponseEntity<Integer> userAccessCount() {
-        var userAccessCount = AccessCount.getAccessCount();
-        return ResponseEntity.ok(userAccessCount);
     }
 
     private ResponseEntity<AnimeResponse> asResponse(Anime anime) {
