@@ -1,5 +1,6 @@
 package anime.controller;
 
+import anime.aop.UserAccess;
 import anime.dto.Anime;
 import anime.dto.AnimeResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@UserAccess
 @RestController
 public class AnimeApi {
 
