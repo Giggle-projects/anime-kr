@@ -16,4 +16,4 @@
 - [ ] Logging
 - [ ] Dummies
 - [ ] TLS
-- [ ] Access count
+- [x] Access count
