@@ -1,4 +1,4 @@
-name: deploy-prod
+name: deployment
 on:
   push:
     branches: [ main ]
@@ -11,8 +11,8 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
+          distribution: 'zulu'
           java-version: 21
-      - name: Grant execute permission for gradlew
         run: |
           cd api-server
           chmod +x gradlew
