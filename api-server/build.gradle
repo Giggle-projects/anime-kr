@@ -35,6 +35,9 @@ dependencies {
 
     // Slack alert
     implementation 'com.slack.api:slack-api-client:1.6.2'
+
+    // spring aop
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 
 test {
