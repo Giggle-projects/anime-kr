@@ -7,6 +7,8 @@ import org.springframework.data.redis.core.RedisHash;
 
 import java.time.LocalDateTime;
 
+import static anime.accessCount.AccessCountAggregateSchedule.RECORD_CACHE_ID;
+
 @AllArgsConstructor
 @Getter
 @RedisHash(value = "accessCount", timeToLive = -1)
@@ -21,7 +23,7 @@ public class AccessCountRecord {
     LocalDateTime lastRecorded;
 
     public static AccessCountRecord initialize() {
-        return new AccessCountRecord("anime-access-count", LocalDateTime.now());
+        return new AccessCountRecord(RECORD_CACHE_ID, LocalDateTime.now());
     }
 
     public AccessCountRecord(String id, LocalDateTime lastRecorded) {

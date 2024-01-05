@@ -2,11 +2,10 @@ package anime;
 
 import anime.alert.AlertManagerChain;
 import anime.controller.AnimeApi;
-import anime.controller.AnimeExceptionHandler;
+import anime.controller.AnimeApiExceptionHandler;
 import anime.controller.Animes;
 import anime.dto.Anime;
 import anime.dto.AnimeResponse;
-import anime.exception.AnimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -40,7 +40,7 @@ public class AnimeApiTest {
     void init() {
         mockMvc = MockMvcBuilders
             .standaloneSetup(new AnimeApi(animes))
-            .setControllerAdvice(new AnimeExceptionHandler(new AlertManagerChain()))
+            .setControllerAdvice(new AnimeApiExceptionHandler(new AlertManagerChain()))
             .build();
     }
 
@@ -111,7 +111,7 @@ public class AnimeApiTest {
     public void findByInvalidId1() throws Exception {
         var invalidSearchId = -1;
         Mockito.when(animes.getById(invalidSearchId))
-            .thenThrow(new AnimeException("no such element"));
+            .thenThrow(new NoSuchElementException("no such element"));
 
         mockMvc
             .perform(get("/api/anime/" + invalidSearchId))

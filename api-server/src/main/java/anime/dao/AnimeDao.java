@@ -1,7 +1,6 @@
 package anime.dao;
 
 import anime.dto.Anime;
-import anime.exception.DataFileException;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +26,7 @@ public class AnimeDao {
                 .map(it -> AnimeMapper.toAnime(it.split("\\|")))
                 .collect(Collectors.toList());
         } catch (Exception e) {
-            throw new DataFileException("Failed to load data file", e);
+            throw new IllegalArgumentException("Failed to load data file", e);
         }
     }
 }

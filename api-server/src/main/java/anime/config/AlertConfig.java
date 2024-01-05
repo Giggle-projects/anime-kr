@@ -20,11 +20,7 @@ public class AlertConfig {
 
     @Bean
     public AlertManagerChain alertChain(List<AlertManager> alertManagers) {
-        var alertChain = new AlertManagerChain();
-        for (var alertManager : alertManagers) {
-            alertChain = alertChain.add(alertManager);
-        }
-        return alertChain;
+        return new AlertManagerChain(alertManagers);
     }
 
     @ConditionalOnProperty(value = "slack.webhook.url")

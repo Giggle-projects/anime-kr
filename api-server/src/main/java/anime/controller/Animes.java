@@ -2,7 +2,6 @@ package anime.controller;
 
 import anime.dao.AnimeDao;
 import anime.dto.Anime;
-import anime.exception.AnimeException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,13 +17,13 @@ public class Animes {
 
     public Animes(AnimeDao animeDao) {
         this.animes = animeDao.readDataFile();
-        if(this.animes.isEmpty()) {
-            throw new NoSuchElementException("file data is empty");
+        if (this.animes.isEmpty()) {
+            throw new NoSuchElementException("File data is empty");
         }
     }
 
     public Anime getById(int id) {
-        return findById(id).orElseThrow(() -> new AnimeException("id is not found"));
+        return findById(id).orElseThrow(() -> new NoSuchElementException("Not exists id"));
     }
 
     private Optional<Anime> findById(int id) {
@@ -49,7 +48,7 @@ public class Animes {
         if (optTitle.isEmpty()) {
             return random();
         }
-        return randomByTitle(optTitle.orElseThrow(() -> new AnimeException("title is not found")));
+        return randomByTitle(optTitle.orElseThrow(() -> new NoSuchElementException("Title is not found")));
     }
 
     public Anime random() {
@@ -59,7 +58,7 @@ public class Animes {
     public Anime randomByTitle(String title) {
         var byTitle = findAllByTitle(title);
         if (byTitle.isEmpty()) {
-            throw new AnimeException("Not exists anime title");
+            throw new NoSuchElementException("Not exists anime title");
         }
         return byTitle.get(ThreadLocalRandom.current().nextInt(byTitle.size()));
     }

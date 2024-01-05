@@ -11,6 +11,8 @@ public class AccessCountAggregateSchedule {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccessCountAggregateSchedule.class);
 
+    public static final String RECORD_CACHE_ID = "anime-access-count";
+
     private final AccessCountRepository accessCountRepository;
 
     public AccessCountAggregateSchedule(AccessCountRepository accessCountRepository) {
@@ -20,7 +22,7 @@ public class AccessCountAggregateSchedule {
     @Scheduled(fixedRate = 60 * 60, initialDelay = 0)
     public void sum() {
         LOGGER.info("aggregate access count");
-        var accessCountRecord = accessCountRepository.findById("anime-access-count")
+        var accessCountRecord = accessCountRepository.findById(RECORD_CACHE_ID)
             .orElse(AccessCountRecord.initialize());
         accessCountRecord.record();
         accessCountRepository.save(accessCountRecord);

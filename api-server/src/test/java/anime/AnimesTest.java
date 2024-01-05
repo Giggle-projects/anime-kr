@@ -3,7 +3,6 @@ package anime;
 import anime.controller.Animes;
 import anime.dao.AnimeDao;
 import anime.dto.Anime;
-import anime.exception.AnimeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -114,7 +114,7 @@ class AnimesTest {
         void searchById2() {
             assertThatThrownBy(
                 () -> animes.getById(Integer.MAX_VALUE)
-            ).isInstanceOf(AnimeException.class);
+            ).isInstanceOf(NoSuchElementException.class);
         }
     }
 

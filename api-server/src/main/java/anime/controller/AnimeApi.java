@@ -2,7 +2,6 @@ package anime.controller;
 
 import anime.dto.Anime;
 import anime.dto.AnimeResponse;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
