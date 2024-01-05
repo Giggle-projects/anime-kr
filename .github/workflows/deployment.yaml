@@ -3,7 +3,7 @@ on:
   push:
     branches: [ main ]
 jobs:
-  build-container:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,20 +29,37 @@ jobs:
         run: |
           cd api-server
           ./gradlew jib
-#
-#  ssh-deploy:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#      - name: execute remote ssh
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.PROD_SERVER_IP }}
-#          username: ${{ secrets.PROD_SERVER_USERNAME }}
-#          key: ${{ secrets.SSH_PRIVATE_KEY }}
-#          passphrase:
-#          port: 2023
-#          script: |
-#            cd ~/dev/anime-kr/infra-service
-#            ./deploy.sh
+  deploy-prod:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: execute remote ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_SERVER_IP }}
+          username: ${{ secrets.PROD_SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase:
+          port: 2023
+          script: |
+            cd ~/dev/anime-kr/infra-service
+            ./deploy.sh
+  ssh-deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: execute remote ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CLOUD_SERVER_IP }}
+          username: ${{ secrets.CLOUD_SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase:
+          port: 22
+          script: |
+            cd ~/anime-kr/infra-backup
+            ./deploy-backup.sh
