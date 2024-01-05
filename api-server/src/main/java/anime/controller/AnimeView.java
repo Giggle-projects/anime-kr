@@ -25,14 +25,14 @@ public class AnimeView {
 
     @GetMapping({"/view/random", "/view/random/{title}"})
     public String random(@PathVariable Optional<String> title, Model model) {
-        var animeResponse = AnimeResponse.of(animes.random(title), imageRootPath);
+        var animeResponse = AnimeResponse.of(animes.random(title));
         model.addAttribute("ani", animeResponse);
         return "index";
     }
 
     @GetMapping("/view/anime/{id}")
     public String find(@PathVariable int id, Model model) {
-        var animeResponse = AnimeResponse.of(animes.getById(id), imageRootPath);
+        var animeResponse = AnimeResponse.of(animes.getById(id));
         model.addAttribute("ani", animeResponse);
         return "index";
     }

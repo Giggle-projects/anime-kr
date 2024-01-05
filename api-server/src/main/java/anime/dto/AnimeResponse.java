@@ -3,15 +3,13 @@ package anime.dto;
 public record AnimeResponse(
     Integer index,
     String title,
-    String famousLine,
-    String imageUrl
+    String famousLine
 ) {
-    public static AnimeResponse of(Anime anime, String rootPath) {
+    public static AnimeResponse of(Anime anime) {
         return new AnimeResponse(
             anime.index(),
             anime.title(),
-            anime.famousLine(),
-            rootPath + anime.imagePath()
+            anime.famousLine()
         );
     }
 }

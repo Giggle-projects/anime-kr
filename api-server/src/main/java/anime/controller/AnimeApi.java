@@ -16,14 +16,9 @@ import java.util.stream.Collectors;
 @RestController
 public class AnimeApi {
 
-    private final String imageRootPath;
     private final Animes animes;
 
-    public AnimeApi(
-        @Value("${image.url.root.path}") String imageRootPath,
-        Animes animes
-    ) {
-        this.imageRootPath = imageRootPath;
+    public AnimeApi(Animes animes) {
         this.animes = animes;
     }
 
@@ -43,13 +38,13 @@ public class AnimeApi {
     }
 
     private ResponseEntity<AnimeResponse> asResponse(Anime anime) {
-        var response = AnimeResponse.of(anime, imageRootPath);
+        var response = AnimeResponse.of(anime);
         return ResponseEntity.ok(response);
     }
 
     private ResponseEntity<List<AnimeResponse>> asResponse(List<Anime> animes) {
         var response = animes.stream()
-            .map(it -> AnimeResponse.of(it, imageRootPath))
+            .map(it -> AnimeResponse.of(it))
             .collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }

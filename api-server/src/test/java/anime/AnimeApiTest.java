@@ -30,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AnimeApiTest {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final String IMAGE_ROOT_PATH = "/";
 
     @Mock
     private Animes animes;
@@ -40,7 +39,7 @@ public class AnimeApiTest {
     @BeforeEach
     void init() {
         mockMvc = MockMvcBuilders
-            .standaloneSetup(new AnimeApi(IMAGE_ROOT_PATH, animes))
+            .standaloneSetup(new AnimeApi(animes))
             .setControllerAdvice(new AnimeExceptionHandler(new AlertManagerChain()))
             .build();
     }
@@ -139,12 +138,12 @@ public class AnimeApiTest {
     }
 
     private AnimeResponse entityToResponse(Anime anime) {
-        return AnimeResponse.of(anime, IMAGE_ROOT_PATH);
+        return AnimeResponse.of(anime);
     }
 
     private List<AnimeResponse> entityToResponse(List<Anime> animes) {
         return animes.stream()
-            .map(it -> AnimeResponse.of(it, IMAGE_ROOT_PATH))
+            .map(AnimeResponse::of)
             .collect(Collectors.toList());
     }
 }
