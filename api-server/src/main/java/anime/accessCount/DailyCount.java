@@ -2,39 +2,33 @@ package anime.accessCount;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.time.LocalDateTime;
 
-import static anime.accessCount.AccessCountAggregateSchedule.RECORD_CACHE_ID;
-
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@RedisHash(value = "accessCount", timeToLive = -1)
-public class AccessCountRecord {
+@RedisHash(value = "dailyCount", timeToLive = -1)
+public class DailyCount {
 
     @Id
     String id;
-    int unrecorded;
     int todayCount;
     int totalCount;
     int yesterdayCount;
-    LocalDateTime lastRecorded;
+    LocalDateTime lastRecorded = LocalDateTime.now();
 
-    public static AccessCountRecord initialize() {
-        return new AccessCountRecord(RECORD_CACHE_ID, LocalDateTime.now());
-    }
-
-    public AccessCountRecord(String id, LocalDateTime lastRecorded) {
+    public DailyCount(String id) {
         this.id = id;
-        this.lastRecorded = lastRecorded;
     }
 
-    public void record() {
-        todayCount += unrecorded;
-        totalCount += unrecorded;
-        unrecorded = 0;
+    public void add(int accessCount) {
+        todayCount += accessCount;
+        totalCount += accessCount;
+
         if (lastRecorded.toLocalDate().isBefore(LocalDateTime.now().toLocalDate())) {
             yesterdayCount = todayCount;
             todayCount = 0;

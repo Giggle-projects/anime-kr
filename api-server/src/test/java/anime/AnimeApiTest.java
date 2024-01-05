@@ -1,11 +1,10 @@
 package anime;
 
 import anime.alert.AlertManagerChain;
-import anime.controller.AnimeApi;
-import anime.controller.AnimeApiExceptionHandler;
-import anime.controller.Animes;
-import anime.dto.Anime;
-import anime.dto.AnimeResponse;
+import anime.anime.Anime;
+import anime.anime.AnimeApi;
+import anime.anime.AnimeApiExceptionHandler;
+import anime.anime.Animes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,10 +16,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -40,7 +39,7 @@ public class AnimeApiTest {
     void init() {
         mockMvc = MockMvcBuilders
             .standaloneSetup(new AnimeApi(animes))
-            .setControllerAdvice(new AnimeApiExceptionHandler(new AlertManagerChain()))
+            .setControllerAdvice(new AnimeApiExceptionHandler(new AlertManagerChain(Collections.emptyList())))
             .build();
     }
 
@@ -51,11 +50,10 @@ public class AnimeApiTest {
         Mockito.when(animes.random(Optional.empty()))
             .thenReturn(randomAnime);
 
-        var expectResponseBody = entityToResponse(randomAnime);
         mockMvc
             .perform(get("/api/random"))
             .andExpect(status().isOk())
-            .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(expectResponseBody)));
+            .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(randomAnime)));
     }
 
     @DisplayName("Request random anime by title")
@@ -66,11 +64,10 @@ public class AnimeApiTest {
         Mockito.when(animes.random(Optional.of(title)))
             .thenReturn(randomAnime);
 
-        var expectResponseBody = entityToResponse(randomAnime);
         mockMvc
             .perform(get("/api/random/" + title))
             .andExpect(status().isOk())
-            .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(expectResponseBody)));
+            .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(randomAnime)));
     }
 
     @DisplayName("Request search anime with line")
@@ -84,11 +81,10 @@ public class AnimeApiTest {
         Mockito.when(animes.searchByLine(searchLine))
             .thenReturn(searched);
 
-        var expectResponseBody = entityToResponse(searched);
         mockMvc
             .perform(get("/api/anime?keyword=" + searchLine))
             .andExpect(status().isOk())
-            .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(expectResponseBody)));
+            .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(searched)));
     }
 
     @DisplayName("Request anime with id")
@@ -99,11 +95,10 @@ public class AnimeApiTest {
         Mockito.when(animes.getById(searchId))
             .thenReturn(searched);
 
-        var expectResponseBody = entityToResponse(searched);
         mockMvc
             .perform(get("/api/anime/" + searchId))
             .andExpect(status().isOk())
-            .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(expectResponseBody)));
+            .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(searched)));
     }
 
     @DisplayName("Bad request with invalid id - not exists data")
@@ -135,15 +130,5 @@ public class AnimeApiTest {
         mockMvc
             .perform(get("/api/random"))
             .andExpect(status().isInternalServerError());
-    }
-
-    private AnimeResponse entityToResponse(Anime anime) {
-        return AnimeResponse.of(anime);
-    }
-
-    private List<AnimeResponse> entityToResponse(List<Anime> animes) {
-        return animes.stream()
-            .map(AnimeResponse::of)
-            .collect(Collectors.toList());
     }
 }

@@ -1,4 +1,4 @@
-package anime.dto;
+package anime.anime;
 
 public record Anime(
     Integer index,
