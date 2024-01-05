@@ -25,10 +25,6 @@ dependencies {
     // Prometheus
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
-    // Shedlock
-    implementation 'net.javacrumbs.shedlock:shedlock-spring:5.10.0'
-    implementation 'net.javacrumbs.shedlock:shedlock-provider-redis-spring:5.10.0'
-
     // Google Guava
     implementation 'com.google.guava:guava:33.0.0-jre'
 
@@ -40,9 +36,6 @@ dependencies {
 
     // Slack alert
     implementation 'com.slack.api:slack-api-client:1.6.2'
-
-    // spring aop
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
 }
 
 test {

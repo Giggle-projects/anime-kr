@@ -1,6 +1,7 @@
-package anime.controller;
+package anime.anime;
 
 import anime.alert.AlertManagerChain;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,14 +10,11 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @ControllerAdvice
 public class AnimeApiExceptionHandler {
 
     private final AlertManagerChain alertManagerChain;
-
-    public AnimeApiExceptionHandler(AlertManagerChain alertManagerChain) {
-        this.alertManagerChain = alertManagerChain;
-    }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> noSuchElementHandler(NoSuchElementException e) {

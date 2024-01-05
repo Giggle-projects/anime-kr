@@ -1,8 +1,8 @@
 package anime;
 
-import anime.controller.Animes;
-import anime.dao.AnimeDao;
-import anime.dto.Anime;
+import anime.anime.Animes;
+import anime.data.AnimeDao;
+import anime.anime.Anime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -22,14 +22,17 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ExtendWith(MockitoExtension.class)
 class AnimesTest {
 
+    @Mock
+    private AnimeDao animeDao;
+
+    private Animes animes;
+
     Anime dummy1 = new Anime(1, "A", "this is test line 1");
     Anime dummy2 = new Anime(2, "A", "this is test line 2");
     Anime dummy3 = new Anime(3, "B", "this is test line 3");
     Anime dummy4 = new Anime(4, "C", "this is test line 4");
+
     List<Anime> dummies = List.of(dummy1, dummy2, dummy3, dummy4);
-    @Mock
-    private AnimeDao animeDao;
-    private Animes animes;
 
     @BeforeEach
     public void init() {
@@ -125,9 +128,8 @@ class AnimesTest {
         @DisplayName("조회시 랜덤으로 조회된 데이터를 조회할 수 있다.")
         @Test
         void searchRandom1() {
-
             for (int i = 0; i < 5; i++) {
-                var result = animes.random();
+                var result = animes.random(Optional.empty());
                 assertThat(dummies.contains(result)).isTrue();
             }
         }
@@ -135,7 +137,6 @@ class AnimesTest {
         @DisplayName("조회시 제목을 통해 제목에 해당하는 랜덤값을 조회할 수 있다.")
         @Test
         void searchRandom2() {
-
             for (int i = 0; i < 5; i++) {
                 var title = "A";
                 var result = animes.random(Optional.of(title));

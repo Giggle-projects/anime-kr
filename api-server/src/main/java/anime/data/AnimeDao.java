@@ -1,6 +1,6 @@
-package anime.dao;
+package anime.data;
 
-import anime.dto.Anime;
+import anime.anime.Anime;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Value;

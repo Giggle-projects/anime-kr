@@ -1,7 +1,6 @@
-package anime.controller;
+package anime.anime;
 
-import anime.dao.AnimeDao;
-import anime.dto.Anime;
+import anime.data.AnimeDao;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -46,20 +45,9 @@ public class Animes {
 
     public Anime random(Optional<String> optTitle) {
         if (optTitle.isEmpty()) {
-            return random();
+            return animes.get(ThreadLocalRandom.current().nextInt(animes.size()));
         }
-        return randomByTitle(optTitle.orElseThrow(() -> new NoSuchElementException("Title is not found")));
-    }
-
-    public Anime random() {
-        return animes.get(ThreadLocalRandom.current().nextInt(animes.size()));
-    }
-
-    public Anime randomByTitle(String title) {
-        var byTitle = findAllByTitle(title);
-        if (byTitle.isEmpty()) {
-            throw new NoSuchElementException("Not exists anime title");
-        }
-        return byTitle.get(ThreadLocalRandom.current().nextInt(byTitle.size()));
+        var animesByTitle = findAllByTitle(optTitle.orElseThrow());
+        return animesByTitle.get(ThreadLocalRandom.current().nextInt(animesByTitle.size()));
     }
 }
