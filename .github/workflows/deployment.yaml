@@ -1,0 +1,52 @@
+name: deploy-prod
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build-container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Grant execute permission for gradlew
+        run: |
+          cd anime-kr
+          chmod +x gradlew
+          ./gradlew test
+      - name: execute remote ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CLOUD_SERVER_IP }}
+          username: ${{ secrets.CLOUD_SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase:
+          port: 22
+          script: |
+            cd anime-kr
+            git pull
+            cd api-server
+            ./gradlew clean build -x test
+            cd ..
+            docker build -t ghcr.io/giggle-projects/anime-kr:0.0.1 -f api-server/Dockerfile .
+            docker tag ghcr.io/giggle-projects/anime-kr:0.0.1 ghcr.io/giggle-projects/anime-kr:latest
+#
+#  ssh-deploy:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#      - name: execute remote ssh
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.PROD_SERVER_IP }}
+#          username: ${{ secrets.PROD_SERVER_USERNAME }}
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          passphrase:
+#          port: 2023
+#          script: |
+#            cd ~/dev/anime-kr/infra-service
+#            ./deploy.sh
