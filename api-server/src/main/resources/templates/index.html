@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link href="index.css" rel="stylesheet">
+    <link href="/index.css" rel="stylesheet">
     <title>Famous Quotes</title>
 </head>
 <body>
 <div class="container">
     <h1>Famous Quotes</h1>
     <div id="quote-container">
-        <img alt="Person" id="person-image" src="../data-images/1.jpeg">
-        <blockquote id="quote"></blockquote>
-        <p id="person"></p>
+        <img alt="Person" id="person-image" th:src="${ani.imageUrl}">
+        <blockquote id="quote" th:text="${ani.famousLine}"></blockquote>
     </div>
     <button id="next-btn">Next Quote</button>
 </div>
-<script src="script.js"></script>
+<script src="/script.js"></script>
 </body>
 </html>
