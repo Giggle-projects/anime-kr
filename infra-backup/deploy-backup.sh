@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Define Container name
 CONTAINER_NAME="anime-kr"
 PORT=8080
-if [[ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]]; then
+
+if [ "$(docker ps -aq -f name="^anime-kr$")" ]; then
   docker rm -f $CONTAINER_NAME
 fi
 
