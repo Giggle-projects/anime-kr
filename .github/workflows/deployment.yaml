@@ -13,11 +13,16 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-      - run: |
+      - name: Test application
+        run: |
           cd api-server
           chmod +x gradlew
           ./gradlew test
-      - name: execute remote ssh
+      - name: Build container image and push it
+        run: |
+          cd api-server
+          ./gradlew jib
+      - name: Execute remote ssh
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.CLOUD_SERVER_IP }}
