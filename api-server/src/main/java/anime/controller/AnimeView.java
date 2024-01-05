@@ -1,7 +1,6 @@
 package anime.controller;
 
 import anime.dto.AnimeResponse;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,14 +11,9 @@ import java.util.Optional;
 @Controller
 public class AnimeView {
 
-    private final String imageRootPath;
     private final Animes animes;
 
-    public AnimeView(
-        @Value("${image.url.root.path}") String imageRootPath,
-        Animes animes
-    ) {
-        this.imageRootPath = imageRootPath;
+    public AnimeView(Animes animes) {
         this.animes = animes;
     }
 

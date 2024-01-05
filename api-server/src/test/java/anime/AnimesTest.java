@@ -22,10 +22,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ExtendWith(MockitoExtension.class)
 class AnimesTest {
 
-    Anime dummy1 = new Anime(1, "A", "this is test line 1", "imagePath");
-    Anime dummy2 = new Anime(2, "A", "this is test line 2", "imagePath");
-    Anime dummy3 = new Anime(3, "B", "this is test line 3", "imagePath");
-    Anime dummy4 = new Anime(4, "C", "this is test line 4", "imagePath");
+    Anime dummy1 = new Anime(1, "A", "this is test line 1");
+    Anime dummy2 = new Anime(2, "A", "this is test line 2");
+    Anime dummy3 = new Anime(3, "B", "this is test line 3");
+    Anime dummy4 = new Anime(4, "C", "this is test line 4");
     List<Anime> dummies = List.of(dummy1, dummy2, dummy3, dummy4);
     @Mock
     private AnimeDao animeDao;

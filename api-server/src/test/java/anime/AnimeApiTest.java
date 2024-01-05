@@ -47,7 +47,7 @@ public class AnimeApiTest {
     @DisplayName("Request random anime")
     @Test
     public void random() throws Exception {
-        var randomAnime = new Anime(1, "title", "famousLine", "imagePath");
+        var randomAnime = new Anime(1, "title", "famousLine");
         Mockito.when(animes.random(Optional.empty()))
             .thenReturn(randomAnime);
 
@@ -62,7 +62,7 @@ public class AnimeApiTest {
     @Test
     public void randomByTitle() throws Exception {
         var title = "title";
-        var randomAnime = new Anime(1, title, "famousLine", "imagePath");
+        var randomAnime = new Anime(1, title, "famousLine");
         Mockito.when(animes.random(Optional.of(title)))
             .thenReturn(randomAnime);
 
@@ -78,8 +78,8 @@ public class AnimeApiTest {
     public void searchWithLine() throws Exception {
         var searchLine = "line";
         var searched = List.of(
-            new Anime(1, "title", searchLine + "1", "imagePath"),
-            new Anime(2, "title", searchLine + "2", "imagePath")
+            new Anime(1, "title", searchLine + "1"),
+            new Anime(2, "title", searchLine + "2")
         );
         Mockito.when(animes.searchByLine(searchLine))
             .thenReturn(searched);
@@ -95,7 +95,7 @@ public class AnimeApiTest {
     @Test
     public void findById() throws Exception {
         var searchId = 1;
-        var searched = new Anime(1, "title", "famousLine", "imagePath");
+        var searched = new Anime(1, "title", "famousLine");
         Mockito.when(animes.getById(searchId))
             .thenReturn(searched);
 
