@@ -22,7 +22,7 @@ jobs:
           done
       - name: Check for changes in specific files
         run: |
-          ALLOWED_FOLDERS=("data-images" "data-files")
+          ALLOWED_FOLDERS=("infra-database")
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             folder_path=$(dirname "$file")
             echo "CHANGED_FOLDERS : $folder_path"

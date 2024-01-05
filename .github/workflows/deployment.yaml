@@ -15,7 +15,7 @@ jobs:
           java-version: 21
       - name: Test application
         run: |
-          cd api-server
+          cd application-server
           chmod +x gradlew
           ./gradlew test
       - name: Login to GitHub Container Registry
@@ -27,7 +27,7 @@ jobs:
           logout: true
       - name: Build container image and push it to GHCR
         run: |
-          cd api-server
+          cd application-server
           ./gradlew jib
   deploy-prod:
     needs: build-and-test
@@ -44,7 +44,7 @@ jobs:
           passphrase:
           port: 2023
           script: |
-            cd ~/dev/anime-kr/infra-service
+            cd ~/dev/anime-kr/infra-prod
             ./deploy.sh
   deploy-backup:
     needs: build-and-test
