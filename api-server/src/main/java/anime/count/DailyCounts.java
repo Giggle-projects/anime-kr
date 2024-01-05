@@ -1,4 +1,4 @@
-package anime.accessCount;
+package anime.count;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.CrudRepository;
@@ -9,14 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class DailyCounts {
 
-    public static final String DATA_ID = "anime-access-count";
+    public static final String DATA_ID = "anime-counts";
 
     private final DailyCountRepository dailyCountRepository;
 
     @Transactional
     public void record(int count) {
-        var redisData = get();
-        redisData.add(count);
+        var data = get();
+        data.add(count);
+        dailyCountRepository.save(data);
     }
 
     @Transactional(readOnly = true)

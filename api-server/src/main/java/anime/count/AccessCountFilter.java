@@ -1,4 +1,4 @@
-package anime.accessCount;
+package anime.count;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

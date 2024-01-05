@@ -1,4 +1,4 @@
-package anime.accessCount;
+package anime.count;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package anime.accessCount;
+package anime.count;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

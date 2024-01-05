@@ -1,4 +1,4 @@
-package anime.accessCount;
+package anime.count;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
