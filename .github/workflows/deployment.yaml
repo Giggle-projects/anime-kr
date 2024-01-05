@@ -27,25 +27,8 @@ jobs:
           logout: true
       - name: Build container image and push it to GHCR
         run: |
-          docker loing
           cd api-server
           ./gradlew jib
-      - name: Execute remote ssh
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.CLOUD_SERVER_IP }}
-          username: ${{ secrets.CLOUD_SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase:
-          port: 22
-          script: |
-            cd anime-kr
-            git pull
-            cd api-server
-            ./gradlew clean build -x test
-            cd ..
-            docker build -t ghcr.io/giggle-projects/anime-kr:0.0.1 -f api-server/Dockerfile .
-            docker tag ghcr.io/giggle-projects/anime-kr:0.0.1 ghcr.io/giggle-projects/anime-kr:latest
 #
 #  ssh-deploy:
 #    runs-on: ubuntu-latest
