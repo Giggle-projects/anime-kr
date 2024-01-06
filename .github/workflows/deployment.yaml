@@ -30,6 +30,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: true
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -44,6 +47,9 @@ jobs:
           logout: true
       - name: Build container image and push it to GHCR
         run: |
+          cp \
+            anime-kr-vault/application-server/src/main/resources/application-prod.properties \
+            application-server/src/main/resources/application-prod.properties
           cd application-server
           ./gradlew build -x test
           cd ..
