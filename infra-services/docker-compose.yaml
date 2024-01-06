@@ -28,20 +28,13 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       - TZ=Asia/Seoul
-  anime-redis:
-    image: redis:latest
+  mongodb:
+    image: mongo:6.0.1
+    container_name: 'anime-mongo'
     ports:
-      - 6379:6379
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root       # this is sample value
+      MONGO_INITDB_ROOT_PASSWORD: root       # this is sample value
     volumes:
-      - ~/redis-data/data:/data
-      - ~/redis-data/conf/redis.conf:/usr/local/conf/redis.conf
-    labels:
-      - "name=redis"
-      - "mode=standalone"
-    restart: always
-    command:
-      redis-server --save "" --appendonly no --databases 1 --maxmemory 256mb --maxmemory-policy allkeys-lru
-    deploy:
-      resources:
-        limits:
-          memory: 300M
+      - ~/mongo-data:/data/db
