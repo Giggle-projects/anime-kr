@@ -8,24 +8,7 @@ on:
     branches:
       - main
 jobs:
-#  test:
-#    if: github.event.pull_request.merged == true
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#      - name: Set up JDK 21
-#        uses: actions/setup-java@v4
-#        with:
-#          distribution: 'zulu'
-#          java-version: 21
-#      - name: Test application
-#        run: |
-#          cd application-server
-#          chmod +x gradlew
-#          ./gradlew test
   build:
-#    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,6 +17,11 @@ jobs:
           ref: main
           token: ${{ secrets.GHCR_ACCESS_TOKEN }}
           submodules: recursive
+      - name : Copy secret files
+        run |
+          cp -f \
+          anime-kr-vault/application-server/src/main/resources/application-prod.properties \
+          application-server/src/main/resources/application-prod.properties
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -46,18 +34,14 @@ jobs:
           username: ecsimsw
           password: ${{ secrets.GHCR_ACCESS_TOKEN }}
           logout: true
+#      - name: Test application
+#        run: |
+#          cd application-server
+#          ./gradlew test
       - name: Build container image and push it to GHCR
         run: |
-          cp -f \
-            anime-kr-vault/application-server/src/main/resources/application-prod.properties \
-            application-server/src/main/resources/application-prod.properties
-          cp -f \
-            anime-kr-vault/infra-services/docker-compose.yaml \
-            infra-services/docker-compose.yaml
-
           cd application-server
           ./gradlew build -x test
-
           cd ..
           docker build -t ghcr.io/giggle-projects/anime-kr:latest -f application-server/Dockerfile .
           docker push ghcr.io/giggle-projects/anime-kr:latest
@@ -85,7 +69,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+          uses: actions/checkout@v3
+          with:
+            ref: main
+            token: ${{ secrets.GHCR_ACCESS_TOKEN }}
+            submodules: recursive
       - name: execute remote ssh
         uses: appleboy/ssh-action@master
         with:
