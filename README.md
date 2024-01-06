@@ -15,5 +15,5 @@
 - [ ] Loki
 - [ ] Logging
 - [ ] Dummies
-- [ ] TLS
+- [x] TLS
 - [x] Access count
