@@ -47,6 +47,7 @@ jobs:
           passphrase:
           port: 2023
           script: |
+            git pull
             cd ~/dev/anime-kr/infra-services
             ./deploy.sh
   deploy-backup:
@@ -64,5 +65,6 @@ jobs:
           passphrase:
           port: 22
           script: |
+            git pull
             cd ~/anime-kr/infra-services
             ./deploy-backup-server.sh
