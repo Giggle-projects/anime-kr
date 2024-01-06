@@ -4,9 +4,6 @@ on:
     branches:
       - release
     types: [closed]
-  push:
-    branches:
-      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,10 +30,11 @@ jobs:
           username: ecsimsw
           password: ${{ secrets.GHCR_ACCESS_TOKEN }}
           logout: true
-#      - name: Test application
-#        run: |
-#          cd application-server
-#          ./gradlew test
+      - name: Test application
+        run: |
+          cd application-server
+          ./gradlew test
+          cd ..
       - name: Build container image and push it to GHCR
         run: |
           cd application-server
