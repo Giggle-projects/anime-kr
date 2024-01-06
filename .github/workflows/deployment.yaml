@@ -51,6 +51,9 @@ jobs:
           cp \
             anime-kr-vault/application-server/src/main/resources/application-prod.properties \
             application-server/src/main/resources/application-prod.properties
+          cp \
+            anime-kr-vault/infra-services/docker-compose.yaml \
+            infra-services/docker-compose.yaml
 
           cd application-server
           ./gradlew build -x test
