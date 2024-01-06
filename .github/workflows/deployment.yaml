@@ -1,10 +1,13 @@
 name: deployment
 on:
-  push:
-    branches: [ release ]
+  pull_request:
+    branches:
+      - release
+    types: [closed]
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -44,6 +47,7 @@ jobs:
           passphrase:
           port: 2023
           script: |
+            git pull
             cd ~/dev/anime-kr/infra-services
             ./deploy.sh
   deploy-backup:
@@ -61,5 +65,6 @@ jobs:
           passphrase:
           port: 22
           script: |
+            git pull
             cd ~/anime-kr/infra-services
             ./deploy-backup-server.sh
