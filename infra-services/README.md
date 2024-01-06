@@ -1,4 +1,4 @@
-## Api bundle
+## Infra services
 
 ### Services
 ```
@@ -33,4 +33,10 @@ Restarting anime-3 ... done
 Health check with localhost:18083/actuator/health ...
 Health check with localhost:18083/actuator/health ...
 Service anime-3 is healthy!
+```
+
+### Deployment for backup server
+```
+chmod +x deploy.sh
+./deploy-backup-server.sh
 ```
