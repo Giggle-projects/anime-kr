@@ -28,13 +28,3 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       - TZ=Asia/Seoul
-  mongodb:
-    image: mongo:6.0.1
-    container_name: 'anime-mongo'
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root       # this is sample value
-      MONGO_INITDB_ROOT_PASSWORD: root       # this is sample value
-    volumes:
-      - ~/mongo-data:/data/db

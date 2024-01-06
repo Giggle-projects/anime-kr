@@ -19,8 +19,7 @@ jobs:
           submodules: recursive
       - name : Copy secret files
         run |
-          cp -f \
-          anime-kr-vault/application-server/src/main/resources/application-prod.properties \
+          cp -f anime-kr-vault/application-prod.properties \
           application-server/src/main/resources/application-prod.properties
       - name: Set up JDK 21
         uses: actions/setup-java@v4
