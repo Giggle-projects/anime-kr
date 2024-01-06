@@ -48,10 +48,10 @@ jobs:
           logout: true
       - name: Build container image and push it to GHCR
         run: |
-          cp \
+          cp -f \
             anime-kr-vault/application-server/src/main/resources/application-prod.properties \
             application-server/src/main/resources/application-prod.properties
-          cp \
+          cp -f \
             anime-kr-vault/infra-services/docker-compose.yaml \
             infra-services/docker-compose.yaml
 
