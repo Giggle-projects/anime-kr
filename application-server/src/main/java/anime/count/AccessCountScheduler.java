@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccessCountScheduler {
 
-    public static final int SCHEDULE_TERM_SEC = 10;
+    public static final int SCHEDULE_TERM_SEC = 5;
 
     private final DailyCounts dailyCounts;
 

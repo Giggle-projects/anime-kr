@@ -4,17 +4,13 @@
 SERVICE_NAMES=("anime-1" "anime-2" "anime-3")
 
 # Perform a health check by waiting for the service to be healthy
-INITIAL_SLEEP=20
+INITIAL_SLEEP=10
 HEALTH_CHECK_INTERVAL=3   # interval seconds
 MAX_RETRIES=10            # Maximum number of retries
 
+docker-compose pull
 for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
   echo "=== INFO :: Update $SERVICE_NAME ==="
-
-  # Get health check endpoint of service
-  URL=localhost
-  PORT=$(docker port $SERVICE_NAME | cut -d: -f2)
-  HEALTH_CHECK_ENDPOINT=${URL}:${PORT}/actuator/health
 
   is_init_container_running=$(docker inspect --format='{{.State.Running}}' "${SERVICE_NAME}")
   if [ "${is_init_container_running}" == "true" ]; then
@@ -26,7 +22,12 @@ for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
   fi
   sleep $INITIAL_SLEEP
 
-  # Check container status, API health with retry strategy
+  # Get health check endpoint of service
+  URL=localhost
+  PORT=$(docker port $SERVICE_NAME | cut -d: -f2)
+  HEALTH_CHECK_ENDPOINT=${URL}:${PORT}/actuator/health
+
+  # Check API server healthy
   retries=0
   while [ $retries -lt $MAX_RETRIES ]; do
       echo "Health check with $HEALTH_CHECK_ENDPOINT ..."

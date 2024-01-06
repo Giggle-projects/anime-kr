@@ -6,30 +6,25 @@ services:
     container_name: "anime-1"
     ports:
       - "18081:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - TZ=Asia/Seoul
   anime-2:
     image: ghcr.io/giggle-projects/anime-kr:latest
     container_name: "anime-2"
     ports:
       - "18082:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - TZ=Asia/Seoul
   anime-3:
     image: ghcr.io/giggle-projects/anime-kr:latest
     container_name: "anime-3"
     ports:
       - "18083:8080"
-  anime-redis:
-    image: redis:latest
-    ports:
-      - 6379:6379
-    volumes:
-      - ~/redis-data/data:/data
-      - ~/redis-data/conf/redis.conf:/usr/local/conf/redis.conf
-    labels:
-      - "name=redis"
-      - "mode=standalone"
-    restart: always
-    command:
-      redis-server --save "" --appendonly no --databases 1 --maxmemory 256mb --maxmemory-policy allkeys-lru
-    deploy:
-      resources:
-        limits:
-          memory: 300M
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - TZ=Asia/Seoul

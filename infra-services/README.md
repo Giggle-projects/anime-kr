@@ -10,7 +10,6 @@ anime-3  ghcr.io/giggle-projects/anime-kr:0.0.1   0.0.0.0:18083->8080/tcp
 
 ### Rolling update with health check
 ```
-chmod +x deploy.sh
 ./deploy.sh
 ```
 

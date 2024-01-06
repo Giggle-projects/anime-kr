@@ -29,4 +29,3 @@ public class DailyCounts {
 
 interface DailyCountRepository extends CrudRepository<DailyCount, String> {
 }
-
