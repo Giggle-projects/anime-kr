@@ -68,11 +68,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-          uses: actions/checkout@v3
-          with:
-            ref: main
-            token: ${{ secrets.GHCR_ACCESS_TOKEN }}
-            submodules: recursive
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          token: ${{ secrets.GHCR_ACCESS_TOKEN }}
+          submodules: recursive
       - name: execute remote ssh
         uses: appleboy/ssh-action@master
         with:
