@@ -15,20 +15,18 @@ public class Animes {
     private final List<Anime> animes;
 
     public Animes(AnimeDao animeDao) {
-        this.animes = animeDao.readDataFile();
-        if (this.animes.isEmpty()) {
+        var animes = animeDao.readDataFile();
+        if (animes.isEmpty()) {
             throw new NoSuchElementException("File data is empty");
         }
+        this.animes = animes;
     }
 
     public Anime getById(int id) {
-        return findById(id).orElseThrow(() -> new NoSuchElementException("Not exists id"));
-    }
-
-    private Optional<Anime> findById(int id) {
         return animes.stream()
             .filter(it -> it.index().equals(id))
-            .findAny();
+            .findAny()
+            .orElseThrow(() -> new NoSuchElementException("Not exists id"));
     }
 
     public List<Anime> searchByLine(String keyword) {
