@@ -14,6 +14,6 @@
 - [ ] Prometehus, grafana
 - [ ] Loki
 - [ ] Logging
-- [ ] Dummies
+- [x] Dummies
 - [x] TLS
 - [x] Access count
