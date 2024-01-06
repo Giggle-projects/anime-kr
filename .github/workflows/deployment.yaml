@@ -2,7 +2,7 @@ name: deployment
 on:
   pull_request:
     branches:
-      - release
+      - main
     types: [closed]
 jobs:
   test:
@@ -39,10 +39,16 @@ jobs:
           username: ecsimsw
           password: ${{ secrets.GHCR_ACCESS_TOKEN }}
           logout: true
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: build
       - name: Build container image and push it to GHCR
         run: |
           cd application-server
-          ./gradlew jib
+          ./gradlew build -x test
+          docker build -t ghcr.io/giggle-projects/anime-kr/latest .
+          docker push
   deploy-prod:
     needs: build
     runs-on: ubuntu-latest

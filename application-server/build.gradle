@@ -2,11 +2,10 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.0'
     id 'io.spring.dependency-management' version '1.1.4'
-    id 'com.google.cloud.tools.jib' version '3.4.0'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'anime-kr.ecsimsw.com'
+version '1.0.0'
 
 repositories {
     mavenCentral()
@@ -41,13 +40,3 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-jib {
-    from.image = "openjdk:21-slim"
-    to.image = "ghcr.io/giggle-projects/anime-kr-ecsimsw"
-    to.tags = ["latest"]
-    container {
-        jvmFlags = ['-XX:NewRatio=2', '-XX:SurvivorRatio=8', '-XX:MaxRAMPercentage=25']
-    }
-}
-
