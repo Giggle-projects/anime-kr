@@ -18,7 +18,7 @@ jobs:
           token: ${{ secrets.GHCR_ACCESS_TOKEN }}
           submodules: recursive
       - name : Copy secret files
-        run |
+        run: |
           cp -f anime-kr-vault/application-prod.properties \
           application-server/src/main/resources/application-prod.properties
       - name: Set up JDK 21
