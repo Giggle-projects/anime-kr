@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
+@Document(collection = "dailyCount")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@RedisHash(value = "dailyCount", timeToLive = -1)
 public class DailyCount {
 
     @Id
