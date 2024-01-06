@@ -4,8 +4,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
-group 'anime-kr.ecsimsw.com'
-version '1.0.0'
+group 'anime-kr'
+version 'latest'
 
 repositories {
     mavenCentral()
