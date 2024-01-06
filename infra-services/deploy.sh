@@ -17,6 +17,7 @@ for SERVICE_NAME in "${SERVICE_NAMES[@]}"; do
   HEALTH_CHECK_ENDPOINT=${URL}:${PORT}/actuator/health
 
   is_init_container_running=$(docker inspect --format='{{.State.Running}}' "${SERVICE_NAME}")
+  docker-compose pull
   if [ "${is_init_container_running}" == "true" ]; then
       # Restart the specified service
       docker-compose restart $SERVICE_NAME
