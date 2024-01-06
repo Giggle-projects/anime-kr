@@ -48,7 +48,7 @@ jobs:
           ./gradlew build -x test
           cd ..
           docker build -t ghcr.io/giggle-projects/anime-kr/latest -f application-server/Dockerfile .
-          docker push
+          docker push ghcr.io/giggle-projects/anime-kr/latest
   deploy-prod:
     needs: build
     runs-on: ubuntu-latest
