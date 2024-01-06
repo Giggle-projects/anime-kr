@@ -39,19 +39,22 @@ jobs:
           distribution: 'zulu'
           java-version: 21
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ecsimsw
           password: ${{ secrets.GHCR_ACCESS_TOKEN }}
           logout: true
+          submodules: recursive
       - name: Build container image and push it to GHCR
         run: |
           cp \
             anime-kr-vault/application-server/src/main/resources/application-prod.properties \
             application-server/src/main/resources/application-prod.properties
+
           cd application-server
           ./gradlew build -x test
+
           cd ..
           docker build -t ghcr.io/giggle-projects/anime-kr:latest -f application-server/Dockerfile .
           docker push ghcr.io/giggle-projects/anime-kr:latest
