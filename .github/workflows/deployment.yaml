@@ -47,9 +47,9 @@ jobs:
           passphrase:
           port: 2023
           script: |
-            cd ~/dev/anime-kr/infra-services
+            cd ~/dev/anime-kr
             git pull
-            ./deploy.sh
+            ./infra-services/deploy.sh
   deploy-backup:
     needs: build-and-test
     runs-on: ubuntu-latest
@@ -65,6 +65,6 @@ jobs:
           passphrase:
           port: 22
           script: |
-            cd ~/anime-kr/infra-services
+            cd ~/anime-kr
             git pull
-            ./deploy-backup-server.sh
+            ./infra-services/deploy-backup-server.sh
