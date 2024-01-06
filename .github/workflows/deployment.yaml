@@ -45,7 +45,6 @@ jobs:
           username: ecsimsw
           password: ${{ secrets.GHCR_ACCESS_TOKEN }}
           logout: true
-          submodules: recursive
       - name: Build container image and push it to GHCR
         run: |
           cp \
