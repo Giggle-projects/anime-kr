@@ -1,3 +1,11 @@
+## Anime-kr
+
+
+### Architecture
+
+<img width="1193" alt="image" src="https://github.com/Giggle-projects/anime-kr/assets/46060746/ede94b3d-977f-4674-a6aa-e5acbe003dde">
+
+
 ### Features
 - [x] Api server CRUD
 - [x] Api server alert
