@@ -3,7 +3,8 @@
 
 ### Architecture
 
-<img width="958" alt="image" src="https://github.com/Giggle-projects/anime-kr/assets/46060746/30aa38c5-d5d6-47af-8442-d6e82a79e980">
+<img width="1197" alt="image" src="https://github.com/Giggle-projects/anime-kr/assets/46060746/e9feccdc-aa52-4b8c-82a1-6075dc00aff2">
+
 
 
 ### Features
