@@ -1,12 +1,9 @@
 package anime.count;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Component
 public class DailyCounts {
 
     public static final String DATA_ID = "anime-counts";
@@ -25,7 +22,4 @@ public class DailyCounts {
         return dailyCountRepository.findById(DATA_ID)
             .orElse(new DailyCount(DATA_ID));
     }
-}
-
-interface DailyCountRepository extends CrudRepository<DailyCount, String> {
 }
