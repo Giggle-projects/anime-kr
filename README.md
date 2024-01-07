@@ -3,8 +3,7 @@
 
 ### Architecture
 
-<img width="1193" alt="image" src="https://github.com/Giggle-projects/anime-kr/assets/46060746/ede94b3d-977f-4674-a6aa-e5acbe003dde">
-
+<img width="1189" alt="image" src="https://github.com/Giggle-projects/anime-kr/assets/46060746/71b7df9d-1fee-4a40-8500-4014d3aebc39">
 
 ### Features
 - [x] Api server CRUD
