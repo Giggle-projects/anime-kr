@@ -41,9 +41,12 @@ jobs:
           repository: Giggle-projects/anime-kr-vault
           ref: main
           token: ${{ secrets.GHCR_ACCESS_TOKEN }}
+          path: './anime-kr-vault'
           run: |
             echo ${{ inputs.working_directory }}
-            cp application-prod.properties application-server/src/main/resources/application-prod.properties
+            ls
+            cp anime-kr-vault/application-prod.properties \
+              application-server/src/main/resources/application-prod.properties
       - name: Build container image and push it to GHCR
         run: |
           cd application-server
