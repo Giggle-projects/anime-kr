@@ -20,7 +20,7 @@
 1. IP 당 1초에 5개 초과 요청은 제한돼요.
 2. 페이지네이션의 첫 인덱스는 0부터, 기본 페이지 사이즈는 20 이에요.
 3. 페이지의 사이즈를 지정할 수 있지만 100을 넘어선 요청은 불가능해요.
-4. 누구나 데이터를 추가할 수 있습니다. 좋아하는 애니의 명대사를 추가해보세요. [Link](https://github.com/Giggle-projects/anime-kr/issues/25)
+4. 누구나 데이터를 추가할 수 있습니다. [여기](https://github.com/Giggle-projects/anime-kr/issues/25)에서 좋아하는 애니의 명대사를 추가해보세요.
 5. Api 의 호출 수가 궁금하면 [여기](https://anime-kr.ecsimsw.com/api/counts) 를 방문해보세요.
 
 ## How to use
