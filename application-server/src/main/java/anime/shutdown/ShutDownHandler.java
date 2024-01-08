@@ -2,6 +2,7 @@ package anime.shutdown;
 
 import jakarta.annotation.PostConstruct;
 import org.reflections.Reflections;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.context.ApplicationContext;
@@ -43,12 +44,23 @@ public class ShutDownHandler {
             .flatMap(it -> new Reflections(it).getTypesAnnotatedWith(ShutDown.class).stream())
             .collect(Collectors.toList());
 
-        shutDownControllers.forEach(it -> Arrays.stream(it.getMethods())
+        shutDownControllers.stream()
+        .filter(this::isNotRegisteredControllerType)
+        .forEach(it -> Arrays.stream(it.getMethods())
             .filter(definedHandlerMethod -> definedHandlerMethod.isAnnotationPresent(GetMapping.class))
             .forEach(definedHandlerMethod -> {
                 var apiPaths = definedHandlerMethod.getAnnotation(GetMapping.class).value();
                 addHandler(apiPaths);
             }));
+    }
+
+    private boolean isNotRegisteredControllerType(Class<?> type) {
+        try {
+            context.getBean(type);
+            return false;
+        } catch (NoSuchBeanDefinitionException e) {
+            return true;
+        }
     }
 
     private void addHandler(String[] paths) {
