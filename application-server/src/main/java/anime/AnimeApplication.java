@@ -8,7 +8,7 @@ public class AnimeApplication {
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(AnimeApplication.class);
-        app.setAdditionalProfiles("prod");
+        app.setAdditionalProfiles("dev");
         app.run(args);
     }
 }
