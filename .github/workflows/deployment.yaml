@@ -1,12 +1,9 @@
 name: deployment
 on:
-#  pull_request:
-#    branches:
-#      - release
-#    types: [closed]
-  push:
+  pull_request:
     branches:
-      - main
+      - release
+    types: [closed]
 jobs:
   build:
     runs-on: ubuntu-latest
