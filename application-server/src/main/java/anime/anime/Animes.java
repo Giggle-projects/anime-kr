@@ -45,7 +45,7 @@ public class Animes {
             .limit(pageNumber * pageSize + pageSize)
             .collect(Collectors.toList());
         return collect.subList(
-            pageNumber * pageSize,
+            Math.min(collect.size(), pageNumber * pageSize),
             Math.min(pageNumber * pageSize + pageSize, collect.size())
         );
     }

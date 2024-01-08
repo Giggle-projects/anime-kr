@@ -1,9 +1,12 @@
 name: deployment
 on:
-  pull_request:
+#  pull_request:
+#    branches:
+#      - release
+#    types: [closed]
+  push:
     branches:
-      - release
-    types: [closed]
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,8 +34,18 @@ jobs:
           cd application-server
           ./gradlew test
           cd ..
+      - name: Checkout private vault code
+        uses: actions/checkout@v4
+        with:
+          repository: Giggle-projects/anime-kr-vault
+          ref: main
+          token: ${{ secrets.GHCR_ACCESS_TOKEN }}
+          path: './anime-kr-vault'
       - name: Build container image and push it to GHCR
         run: |
+          cp anime-kr-vault/application-prod.properties \
+             application-server/src/main/resources/application-prod.properties
+          ls -al
           cd application-server
           ./gradlew build -x test
           cd ..
