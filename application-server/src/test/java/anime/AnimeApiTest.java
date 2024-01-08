@@ -13,13 +13,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -39,6 +39,7 @@ public class AnimeApiTest {
     void init() {
         mockMvc = MockMvcBuilders
             .standaloneSetup(new AnimeApi(animes))
+            .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
             .setControllerAdvice(new AnimeApiExceptionHandler(new AlertManagerChain(Collections.emptyList())))
             .build();
     }
@@ -47,11 +48,11 @@ public class AnimeApiTest {
     @Test
     public void random() throws Exception {
         var randomAnime = new Anime(1, "title", "famousLine");
-        Mockito.when(animes.random(Optional.empty()))
+        Mockito.when(animes.random(""))
             .thenReturn(randomAnime);
 
         mockMvc
-            .perform(get("/api/random"))
+            .perform(get("/api/anime/random"))
             .andExpect(status().isOk())
             .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(randomAnime)));
     }
@@ -61,28 +62,45 @@ public class AnimeApiTest {
     public void randomByTitle() throws Exception {
         var title = "title";
         var randomAnime = new Anime(1, title, "famousLine");
-        Mockito.when(animes.random(Optional.of(title)))
+        Mockito.when(animes.random(title))
             .thenReturn(randomAnime);
 
         mockMvc
-            .perform(get("/api/random/" + title))
+            .perform(get("/api/anime/random?title=" + title))
             .andExpect(status().isOk())
             .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(randomAnime)));
     }
 
-    @DisplayName("Request search anime with line")
+    @DisplayName("Request search anime with title and line")
     @Test
-    public void searchWithLine() throws Exception {
+    public void search() throws Exception {
         var searchLine = "line";
+        var title = "title";
         var searched = List.of(
-            new Anime(1, "title", searchLine + "1"),
-            new Anime(2, "title", searchLine + "2")
+            new Anime(1, title, searchLine + "1"),
+            new Anime(2, title, searchLine + "2")
         );
-        Mockito.when(animes.searchByLine(searchLine))
+        Mockito.when(animes.search(title, searchLine, 20, 0))
             .thenReturn(searched);
 
         mockMvc
-            .perform(get("/api/anime?keyword=" + searchLine))
+            .perform(get("/api/anime/search?line=" + searchLine + "&title=" + title))
+            .andExpect(status().isOk())
+            .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(searched)));
+    }
+
+    @DisplayName("Request search anime with pagination")
+    @Test
+    public void searchWithPagination() throws Exception {
+        var searched = List.of(
+            new Anime(1, "title", "searchLine1"),
+            new Anime(2, "title", "searchLine2")
+        );
+        Mockito.when(animes.search("", "", 10, 1))
+            .thenReturn(searched);
+
+        mockMvc
+            .perform(get("/api/anime/search?page=1&size=10"))
             .andExpect(status().isOk())
             .andExpect(content().json(OBJECT_MAPPER.writeValueAsString(searched)));
     }
@@ -125,10 +143,10 @@ public class AnimeApiTest {
     @DisplayName("Response server error by unhandled exception")
     @Test
     public void responseServerError() throws Exception {
-        Mockito.when(animes.random(Optional.empty()))
+        Mockito.when(animes.random(Mockito.anyString()))
             .thenThrow(IllegalArgumentException.class);
         mockMvc
-            .perform(get("/api/random"))
+            .perform(get("/api/anime/random"))
             .andExpect(status().isInternalServerError());
     }
 }

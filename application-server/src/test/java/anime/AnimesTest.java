@@ -43,35 +43,34 @@ class AnimesTest {
 
     @DisplayName("명대사를 검색할 수 있다.")
     @Nested
-    class SearchByLine {
+    class Search {
 
-        @DisplayName("단일 결과가 나오는 경우")
+        @DisplayName("제목을 이용하여 검색한다.")
         @Test
-        void searchByLine1() {
-            var searchResult = animes.searchByLine("1");
-            assertThat(searchResult.getFirst()).isEqualTo(dummy1);
+        void searchByTitle() {
+            var searchResult = animes.search("A", "", 20, 0);
+            assertThat(searchResult).isEqualTo(List.of(dummy1, dummy2));
         }
 
-        @DisplayName("여러 결과가 나오는 경우")
+        @DisplayName("대사 이용하여 검색한다.")
         @Test
-        void searchByLine2() {
-            var searchResult = animes.searchByLine("this");
+        void searchByLine() {
+            var searchResult = animes.search("", "this", 20, 0);
             assertThat(searchResult).isEqualTo(List.of(dummy1, dummy2, dummy3, dummy4));
         }
 
-        @DisplayName("검색 결과가 없는 경우")
+        @DisplayName("제목과 대사를 이용하여 검색한다.")
         @Test
-        void searchByLine3() {
-            var searchResult = animes.searchByLine("this is not exists");
-            assertThat(searchResult).isEqualTo(List.of());
+        void searchByTitleAndLine() {
+            var searchResult = animes.search("C", "this", 20, 0);
+            assertThat(searchResult).isEqualTo(List.of(dummy4));
         }
 
-        @DisplayName("검색 키워드가 null 인 경우, NPE 예외를 발생한다.")
+        @DisplayName("검색 결과가 없는 경우 빈 리스트를 반환한다.")
         @Test
-        void searchByLine4() {
-            assertThatThrownBy(
-                () -> animes.searchByLine(null)
-            ).isInstanceOf(NullPointerException.class);
+        void searchByLineWithEmptyResult() {
+            var searchResult = animes.search("", "this is not exists", 20, 0);
+            assertThat(searchResult).isEqualTo(List.of());
         }
     }
 
@@ -112,7 +111,7 @@ class AnimesTest {
             assertThat(result).isEqualTo(dummy1);
         }
 
-        @DisplayName("존재하지 않은 인덱스 번호로 검색할 경우, AE 예외를 발생시킨다.")
+        @DisplayName("존재하지 않은 인덱스 번호로 검색할 경우, 예외를 발생시킨다.")
         @Test
         void searchById2() {
             assertThatThrownBy(
@@ -125,21 +124,21 @@ class AnimesTest {
     @Nested
     class SearchRandom {
 
-        @DisplayName("조회시 랜덤으로 조회된 데이터를 조회할 수 있다.")
+        @DisplayName("랜덤으로 데이터를 조회할 수 있다.")
         @Test
         void searchRandom1() {
             for (int i = 0; i < 5; i++) {
-                var result = animes.random(Optional.empty());
+                var result = animes.random();
                 assertThat(dummies.contains(result)).isTrue();
             }
         }
 
-        @DisplayName("조회시 제목을 통해 제목에 해당하는 랜덤값을 조회할 수 있다.")
+        @DisplayName("제목에 해당하는 랜덤값을 조회할 수 있다.")
         @Test
         void searchRandom2() {
             for (int i = 0; i < 5; i++) {
                 var title = "A";
-                var result = animes.random(Optional.of(title));
+                var result = animes.random(title);
                 assertThat(result.title()).isEqualTo(title);
             }
         }
