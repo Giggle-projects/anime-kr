@@ -34,6 +34,7 @@ jobs:
           cd application-server
           ./gradlew test
           cd ..
+          pwd
       - name: Checkout private vault code
         uses: actions/checkout@v4
         with:
@@ -41,6 +42,7 @@ jobs:
           ref: main
           token: ${{ secrets.GHCR_ACCESS_TOKEN }}
           run: |
+            pwd
             cp application-prod.properties application-server/src/main/resources/application-prod.properties
       - name: Build container image and push it to GHCR
         run: |
