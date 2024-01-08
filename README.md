@@ -1,85 +1,51 @@
 # Anime-kr
+<p align="center">
+  <a>
+    <img src="https://github.com/Giggle-projects/anime-kr/assets/46060746/7ac08e5e-2f29-4d28-905f-410121abb61f" alt="Logo" width="600">
+  </a>
+  <p align="center">API that provides famous animation lines in Korean version, inspired by <a href="https://github.com/rocktimsaikia/animechan">animechan</a></p> 
+  <p align="center">
+    <a href="https://github.com/rocktimsaikia/anime-chan/discussions/65">Anime request</a>
+    |
+    <a href="https://github.com/rocktimsaikia/anime-chan/issues">Bug report</a>
+    |
+    <a href="https://github.com/rocktimsaikia/anime-chan/issues">Feature request</a>
+  </p>
+</p>
 
-## Application
+## About
 
-### Architecture
+애니 명대사를 제공합니다.      
+영문 버전 API, [animechan](https://github.com/rocktimsaikia/animechan) 을 보고 한국 애니메이션이 포함된 한국어 버전이 있었으면 좋겠다는 생각에 제작하였습니다.    
 
-<img width="1189" alt="image" src="https://github.com/Giggle-projects/anime-kr/assets/46060746/71b7df9d-1fee-4a40-8500-4014d3aebc39">
+## How to use
 
-## Gateway
+### Get randomly
 
-### Load balancing
 ```
-Balancing method : least-connected
-Default route : prod server (anime-1, anime-2, anime-3)
-Backup : cloud server
-```
-- Balancing to prod server with the least number of active connections.
-- Route to backup server when all the prod servers are marked as unavailable.
-
-### Rate limit
-```
-Rate limit by user ip
-Overflow response status : 429(Too Many Requests)
-Rate=5r/s; with burst 5
-Bucket size : 10mb
-Admin, Dev ips are excluded
-```
-
-### Health check
-```
-Passive health checks
-Fail timeout : 30
-Max fails : 1
-```
-- NGINX fails to send a request to a server or does not receive a response from it 1 times in 30 seconds, it marks the server as unavailable for 30 seconds.
-
-### TLS
-```
-HTTPS anime-kr.ecsimsw.com
-Redirect HTTP -> HTTPS
+GET https://anime-kr.ecsimsw.com/api/random
 ```
 
-## Infra services
-
-### Services
 ```
-NAMES    IMAGE                                    PORTS
-anime-1  ghcr.io/giggle-projects/anime-kr:0.0.1   0.0.0.0:18081->8080/tcp
-anime-2  ghcr.io/giggle-projects/anime-kr:0.0.1   0.0.0.0:18082->8080/tcp
-anime-3  ghcr.io/giggle-projects/anime-kr:0.0.1   0.0.0.0:18083->8080/tcp
+{
+  "index": 79,
+  "title": "슬램덩크",
+  "famousLine": "영감님의 영광의 시대는 언제였죠? 국가대표였을 때였나요? 난 지금입니다."
+}
 ```
 
-### Rolling update with health check
+
+### Get random quotes from anime
+
 ```
-./deploy.sh
+GET https://anime-kr.ecsimsw.com/api/random/원피스
 ```
 
-### Deployment output
-```
-=== INFO :: Update anime-1 ===
-Restarting anime-1 ... done
-Health check with localhost:18081/actuator/health ...
-Health check with localhost:18081/actuator/health ...
-Service anime-1 is healthy!
-
-=== INFO :: Update anime-2 ===
-Restarting anime-2 ... done
-Health check with localhost:18082/actuator/health ...
-Health check with localhost:18082/actuator/health ...
-Service anime-2 is healthy!
-
-=== INFO :: Update anime-3 ===
-Restarting anime-3 ... done
-Health check with localhost:18083/actuator/health ...
-Health check with localhost:18083/actuator/health ...
-Service anime-3 is healthy!
 ```
 
-### Deployment for backup server
-```
-chmod +x deploy.sh
-./deploy-backup-server.sh
 ```
 
+
+
+## Important Notes
 
