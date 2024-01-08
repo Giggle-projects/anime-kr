@@ -42,12 +42,11 @@ jobs:
           ref: main
           token: ${{ secrets.GHCR_ACCESS_TOKEN }}
           path: './anime-kr-vault'
-          run: |
-            ls -al
-            cp anime-kr-vault/application-prod.properties \
-              application-server/src/main/resources/application-prod.properties
       - name: Build container image and push it to GHCR
         run: |
+          ls -al
+          cp anime-kr-vault/application-prod.properties \
+             application-server/src/main/resources/application-prod.properties
           cd application-server
           ./gradlew build -x test
           cd ..
