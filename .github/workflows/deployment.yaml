@@ -34,7 +34,7 @@ jobs:
           cd application-server
           ./gradlew test
           cd ..
-          echo ${{ inputs.working_directory }}
+          ls -al
       - name: Checkout private vault code
         uses: actions/checkout@v4
         with:
@@ -43,8 +43,7 @@ jobs:
           token: ${{ secrets.GHCR_ACCESS_TOKEN }}
           path: './anime-kr-vault'
           run: |
-            echo ${{ inputs.working_directory }}
-            ls
+            ls -al
             cp anime-kr-vault/application-prod.properties \
               application-server/src/main/resources/application-prod.properties
       - name: Build container image and push it to GHCR
