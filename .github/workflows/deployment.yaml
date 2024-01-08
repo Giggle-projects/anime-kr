@@ -1,9 +1,12 @@
 name: deployment
 on:
-  pull_request:
+#  pull_request:
+#    branches:
+#      - release
+#    types: [closed]
+  push:
     branches:
-      - release
-    types: [closed]
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,6 +34,12 @@ jobs:
           cd application-server
           ./gradlew test
           cd ..
+      - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.GHCR_ACCESS_TOKEN }}
+          repository: Giggle-projects/anime-kr-vault
+          run: |
+            cp application-prod.properties application-server/src/main/resources/application-prod.properties
       - name: Build container image and push it to GHCR
         run: |
           cd application-server
