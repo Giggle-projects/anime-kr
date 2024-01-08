@@ -35,6 +35,9 @@ dependencies {
 
     // Slack alert
     implementation 'com.slack.api:slack-api-client:1.6.2'
+
+    // Reflections
+    implementation 'org.reflections:reflections:0.10.2'
 }
 
 test {
