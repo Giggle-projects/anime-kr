@@ -46,6 +46,9 @@ public class Animes {
             return animes.get(ThreadLocalRandom.current().nextInt(animes.size()));
         }
         var animesByTitle = findAllByTitle(optTitle.orElseThrow());
+        if(animesByTitle.size() < 1) {
+            throw new NoSuchElementException("Not exists anime");
+        }
         return animesByTitle.get(ThreadLocalRandom.current().nextInt(animesByTitle.size()));
     }
 }
