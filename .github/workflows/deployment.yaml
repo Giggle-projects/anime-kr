@@ -34,10 +34,12 @@ jobs:
           cd application-server
           ./gradlew test
           cd ..
-      - uses: actions/checkout@v2
+      - name: Checkout private vault code
+        uses: actions/checkout@v4
         with:
-          ssh-key: ${{ secrets.GHCR_ACCESS_TOKEN }}
           repository: Giggle-projects/anime-kr-vault
+          ref: main
+          token: ${{ secrets.GHCR_ACCESS_TOKEN }}
           run: |
             cp application-prod.properties application-server/src/main/resources/application-prod.properties
       - name: Build container image and push it to GHCR
