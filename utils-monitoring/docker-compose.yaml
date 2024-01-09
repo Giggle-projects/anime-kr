@@ -6,12 +6,13 @@ services:
       - 9090:3000
     volumes:
       - ~/grafana-data:/var/lib/grafana
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+#  $ docker exec -it grafana bash
+#  $ grafana-cli --homepath "/usr/share/grafana" admin reset-admin-password "admin"
+
   anime-prometheus:
     image: prom/prometheus:v2.48.0
     volumes:
