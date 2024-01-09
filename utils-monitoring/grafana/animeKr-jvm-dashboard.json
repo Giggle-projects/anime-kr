@@ -37,7 +37,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 4701,
   "graphTooltip": 1,
-  "id": 3,
+  "id": 9,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -112,7 +112,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "decbytes"
         },
         "overrides": []
       },
@@ -144,7 +145,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "(sum(jvm_memory_used_bytes{application=\"$application\", area=\"heap\", instance=\"host.docker.internal:18081\"}) * 100) / sum(jvm_memory_max_bytes{application=\"$application\", instance=\"host.docker.internal:18081\", area=\"heap\"})",
+          "expr": "sum(jvm_memory_used_bytes{application=\"$application\", area=\"heap\", instance=\"host.docker.internal:18081\"})",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -162,7 +163,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "(sum(jvm_memory_used_bytes{application=\"$application\", area=\"heap\", instance=\"host.docker.internal:18082\"}) * 100) / sum(jvm_memory_max_bytes{application=\"$application\", instance=\"host.docker.internal:18082\", area=\"heap\"})",
+          "expr": "sum(jvm_memory_used_bytes{application=\"$application\", area=\"heap\", instance=\"host.docker.internal:18082\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -181,7 +182,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "(sum(jvm_memory_used_bytes{application=\"$application\", area=\"heap\", instance=\"host.docker.internal:18083\"}) * 100) / sum(jvm_memory_max_bytes{application=\"$application\", instance=\"host.docker.internal:18083\", area=\"heap\"})",
+          "expr": "sum(jvm_memory_used_bytes{application=\"$application\", area=\"heap\", instance=\"host.docker.internal:18083\"})",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -193,7 +194,7 @@
           "useBackend": false
         }
       ],
-      "title": "API server - memory usage [%]",
+      "title": "API server - memory usage",
       "type": "timeseries"
     },
     {
@@ -294,7 +295,7 @@
           "useBackend": false
         }
       ],
-      "title": "API 1 - JVM heap",
+      "title": "API 1 - JVM memory",
       "type": "bargauge"
     },
     {
@@ -395,7 +396,7 @@
           "useBackend": false
         }
       ],
-      "title": "API 2 - JVM heap",
+      "title": "API 2 - JVM memory",
       "type": "bargauge"
     },
     {
@@ -496,7 +497,7 @@
           "useBackend": false
         }
       ],
-      "title": "API 3 - JVM heap",
+      "title": "API 3 - JVM memory",
       "type": "bargauge"
     },
     {
@@ -2078,6 +2079,6 @@
   "timezone": "browser",
   "title": "anime-kr",
   "uid": "c20bafb4-a68d-4da3-92d2-c202a3a1f0ac",
-  "version": 7,
+  "version": 5,
   "weekStart": ""
 }
