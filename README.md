@@ -8,6 +8,8 @@
     <a href="https://anime-kr.ecsimsw.com/api/counts">See request count</a>
     |
     <a href="https://github.com/Giggle-projects/anime-kr/issues/25">Add your data</a>
+    |
+    <a href="https://github.com/Giggle-projects/anime-kr/tree/main/utils-monitoring">Monitoring dashboard</a>
   </p>
 </p>
 
