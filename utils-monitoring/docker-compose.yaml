@@ -5,7 +5,6 @@ services:
     ports:
       - 9090:3000
     volumes:
-      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
       - ~/grafana-data:/var/lib/grafana
     restart: always
     extra_hosts:
