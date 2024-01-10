@@ -5,11 +5,13 @@ services:
     ports:
       - 9090:3000
     volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
       - ~/grafana-data:/var/lib/grafana
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+# For reset admin user
 #  $ docker exec -it grafana bash
 #  $ grafana-cli --homepath "/usr/share/grafana" admin reset-admin-password "admin"
 
