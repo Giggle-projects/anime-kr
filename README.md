@@ -24,6 +24,7 @@
 3. 페이지의 사이즈를 지정할 수 있지만 100을 넘어선 요청은 불가능해요.
 4. 누구나 데이터를 추가할 수 있습니다. [여기](https://github.com/Giggle-projects/anime-kr/issues/25)에서 좋아하는 애니의 명대사를 추가해보세요.
 5. Api 의 호출 수가 궁금하면 [여기](https://anime-kr.ecsimsw.com/api/counts) 를 방문해보세요.
+6. 퍼블릭 모니터링 대시보드가 있어요. [여기](https://github.com/Giggle-projects/anime-kr/tree/main/utils-monitoring) 에서 접속 정보를 확인해보세요.
 
 ## How to use
 
