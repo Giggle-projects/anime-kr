@@ -2,7 +2,9 @@ package anime;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import shutdown.EnableShutDown;
 
+@EnableShutDown
 @SpringBootApplication
 public class AnimeApplication {
 

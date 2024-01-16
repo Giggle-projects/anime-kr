@@ -9,6 +9,7 @@ version 'latest'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -34,6 +35,9 @@ dependencies {
 
     // Slack alert
     implementation 'com.slack.api:slack-api-client:1.6.2'
+
+    // ShutDown
+    implementation 'com.github.ecsimsw:api-shutdown:0.0.4'
 
     // Reflections
     implementation 'org.reflections:reflections:0.10.2'
