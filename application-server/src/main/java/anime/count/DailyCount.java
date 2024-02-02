@@ -22,16 +22,15 @@ public class DailyCount {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    Long id;
-    int todayCount;
-    int totalCount;
-    int yesterdayCount;
-    LocalDateTime lastRecorded = LocalDateTime.now();
+    private Long id;
+    private int todayCount;
+    private int totalCount;
+    private int yesterdayCount;
+    private LocalDateTime lastRecorded = LocalDateTime.now();
 
     public void add(int accessCount) {
         todayCount += accessCount;
         totalCount += accessCount;
-
         if (lastRecorded.toLocalDate().isBefore(LocalDateTime.now().toLocalDate())) {
             yesterdayCount = todayCount;
             todayCount = 0;

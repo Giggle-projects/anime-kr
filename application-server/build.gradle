@@ -37,7 +37,7 @@ dependencies {
     implementation 'com.slack.api:slack-api-client:1.6.2'
 
     // ShutDown
-    implementation 'com.github.ecsimsw:api-shutdown:0.0.4'
+    implementation 'com.github.ecsimsw:api-shutdown:0.0.5'
 
     // Mysql
     runtimeOnly 'com.mysql:mysql-connector-j'

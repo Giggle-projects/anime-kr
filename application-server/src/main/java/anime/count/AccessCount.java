@@ -11,8 +11,6 @@ public class AccessCount {
     }
 
     public static int flush() {
-        var valueNow = CACHED.get();
-        CACHED.set(0);
-        return valueNow;
+        return CACHED.getAndSet(0);
     }
 }
