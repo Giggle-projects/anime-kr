@@ -16,13 +16,15 @@ public class AccessCountFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        var ip = request.getHeader("X-FORWARDED-FOR");
-        if(ip == null) {
-            return;
-        }
-        LOGGER.info("request ip : " + ip);
-
-        AccessCount.increase();
+        countAccessLog(request, response, filterChain);
         filterChain.doFilter(request, response);
+    }
+
+    private static void countAccessLog(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        var ip = request.getHeader("X-FORWARDED-FOR");
+        if(ip != null) {
+            LOGGER.info("request ip : " + ip);
+            AccessCount.increase();
+        }
     }
 }
