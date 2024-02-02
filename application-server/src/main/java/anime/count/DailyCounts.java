@@ -25,7 +25,7 @@ public class DailyCounts {
         dailyCountRepository.save(data);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public DailyCount get() {
         return dailyCountRepository.findById(DATA_ID).orElseThrow();
     }

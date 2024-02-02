@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @RequiredArgsConstructor
 public class AccessCountScheduler {
 
-    public static final int SCHEDULE_TERM_SEC = 60;
+    public static final int SCHEDULE_TERM_SEC = 10;
 
     private final DailyCounts dailyCounts;
 
