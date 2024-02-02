@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import shutdown.core.ShutDown;
 
 import static anime.shutdown.ShutDownTest.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

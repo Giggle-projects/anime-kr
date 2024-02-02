@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@ConditionalOnProperty("spring.data.mongodb.uri")
+@ConditionalOnProperty("spring.datasource.url")
 @Configuration
 public class AccessCountConfig {
 

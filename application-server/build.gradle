@@ -19,7 +19,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // Prometheus
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
@@ -39,8 +39,8 @@ dependencies {
     // ShutDown
     implementation 'com.github.ecsimsw:api-shutdown:0.0.4'
 
-    // Reflections
-    implementation 'org.reflections:reflections:0.10.2'
+    // Mysql
+    runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 test {
