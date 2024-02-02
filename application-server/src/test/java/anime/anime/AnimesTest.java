@@ -1,4 +1,4 @@
-package anime;
+package anime.anime;
 
 import anime.anime.Animes;
 import anime.data.AnimeDao;

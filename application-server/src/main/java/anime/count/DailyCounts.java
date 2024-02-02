@@ -3,10 +3,10 @@ package anime.count;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import static anime.count.DailyCount.DATA_ID;
+
 @RequiredArgsConstructor
 public class DailyCounts {
-
-    public static final String DATA_ID = "anime-counts";
 
     private final DailyCountRepository dailyCountRepository;
 
@@ -19,7 +19,6 @@ public class DailyCounts {
 
     @Transactional(readOnly = true)
     public DailyCount get() {
-        return dailyCountRepository.findById(DATA_ID)
-            .orElse(new DailyCount(DATA_ID));
+        return dailyCountRepository.findById(DATA_ID).orElseThrow();
     }
 }

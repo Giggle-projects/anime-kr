@@ -1,4 +1,4 @@
-package anime;
+package anime.anime;
 
 import anime.alert.AlertManagerChain;
 import anime.anime.Anime;
