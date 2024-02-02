@@ -16,7 +16,8 @@ public class AccessCountFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        LOGGER.info("request ip : " + request.getRemoteAddr());
+        var ip = request.getHeader("X-FORWARDED-FOR");
+        LOGGER.info("request ip : " + ip);
 
         AccessCount.increase();
         filterChain.doFilter(request, response);
