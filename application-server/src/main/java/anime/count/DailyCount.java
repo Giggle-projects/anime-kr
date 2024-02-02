@@ -20,6 +20,8 @@ public class DailyCount {
 
     public static final Long DATA_ID = 1L;
 
+    public static final DailyCount SINGLE_DATA = new DailyCount(DATA_ID, 0, 0, 0, LocalDateTime.now());
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
