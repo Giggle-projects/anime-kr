@@ -1,47 +1,37 @@
 package anime.anime;
 
-import anime.data.AnimeDao;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Component
 public class Animes {
 
-    private final List<Anime> animes;
-
-    public Animes(AnimeDao animeDao) {
-        var animes = animeDao.readDataFile();
-        if (animes.isEmpty()) {
-            throw new NoSuchElementException("File data is empty");
-        }
-        this.animes = animes;
-    }
+    private final AnimeDao animes;
 
     public Anime random() {
-        return animes.get(ThreadLocalRandom.current().nextInt(animes.size()));
+        return animes.rand();
     }
 
     public Anime random(String title) {
-        if(title.isBlank()) {
+        if (title.isBlank()) {
             return random();
         }
-        var animesByTitle = findAllByTitleContains(title);
-        if (animesByTitle.size() < 1) {
+        var animesByTitle = allByTitleContains(title);
+        if (animesByTitle.isEmpty()) {
             throw new NoSuchElementException("Non existent anime");
         }
         return animesByTitle.get(ThreadLocalRandom.current().nextInt(animesByTitle.size()));
     }
 
     public List<Anime> search(String title, String line, int pageSize, int pageNumber) {
-        var collect = animes.stream()
-            .filter(it -> it.title().contains(title))
-            .filter(it -> it.famousLine().contains(line))
+        var collect = animes.findAllContains(title, line)
+            .stream()
             .limit(pageNumber * pageSize + pageSize)
             .collect(Collectors.toList());
         return collect.subList(
@@ -51,21 +41,11 @@ public class Animes {
     }
 
     public Anime getById(int id) {
-        return animes.stream()
-            .filter(it -> it.index().equals(id))
-            .findAny()
+        return animes.findById(id)
             .orElseThrow(() -> new NoSuchElementException("Not exists id"));
     }
 
-    public List<Anime> findAllByTitle(String title) {
-        return animes.stream()
-            .filter(it -> it.title().equals(title))
-            .collect(Collectors.toList());
-    }
-
-    public List<Anime> findAllByTitleContains(String title) {
-        return animes.stream()
-            .filter(it -> it.title().contains(title))
-            .collect(Collectors.toList());
+    public List<Anime> allByTitleContains(String title) {
+        return animes.findAllContainsByTitle(title);
     }
 }

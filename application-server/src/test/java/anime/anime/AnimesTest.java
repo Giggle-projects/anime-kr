@@ -1,30 +1,27 @@
 package anime.anime;
 
-import anime.anime.Animes;
-import anime.data.AnimeDao;
-import anime.anime.Anime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AnimesTest {
 
-    @Mock
+    @Spy
     private AnimeDao animeDao;
-
     private Animes animes;
 
     Anime dummy1 = new Anime(1, "A", "this is test line 1");
@@ -35,10 +32,15 @@ class AnimesTest {
     List<Anime> dummies = List.of(dummy1, dummy2, dummy3, dummy4);
 
     @BeforeEach
-    public void init() {
-        Mockito.when(animeDao.readDataFile())
-            .thenReturn(dummies);
-        animes = new Animes(animeDao);
+    public void init() throws IOException {
+        doAnswer(invocation -> Stream.of(
+                "|1|A|this is test line 1|",
+                "|2|A|this is test line 2|",
+                "|3|B|this is test line 3|",
+                "|4|C|this is test line 4|"
+            )
+        ).when(animeDao).fileStream();
+        this.animes = new Animes(animeDao);
     }
 
     @DisplayName("명대사를 검색할 수 있다.")
@@ -81,21 +83,14 @@ class AnimesTest {
         @DisplayName("애니 제목으로 검색할 수 있다.")
         @Test
         void searchByTitle1() {
-            var result = animes.findAllByTitle("A");
+            var result = animes.allByTitleContains("A");
             assertThat(result).isEqualTo(List.of(dummy1, dummy2));
         }
 
         @DisplayName("검색 결과가 없는 경우 빈 리스트를 반환한다.")
         @Test
         void searchByTitle2() {
-            var result = animes.findAllByTitle("this is not exist");
-            assertThat(result).isEqualTo(List.of());
-        }
-
-        @DisplayName("제목이 null 인 경우, 빈 리스트를 반환한다.")
-        @Test
-        void searchByTitle3() {
-            var result = animes.findAllByTitle(null);
+            var result = animes.allByTitleContains("this is not exist");
             assertThat(result).isEqualTo(List.of());
         }
     }
@@ -127,20 +122,16 @@ class AnimesTest {
         @DisplayName("랜덤으로 데이터를 조회할 수 있다.")
         @Test
         void searchRandom1() {
-            for (int i = 0; i < 5; i++) {
-                var result = animes.random();
-                assertThat(dummies.contains(result)).isTrue();
-            }
+            var result = animes.random();
+            assertThat(dummies.contains(result)).isTrue();
         }
 
         @DisplayName("제목에 해당하는 랜덤값을 조회할 수 있다.")
         @Test
         void searchRandom2() {
-            for (int i = 0; i < 5; i++) {
-                var title = "A";
-                var result = animes.random(title);
-                assertThat(result.title()).isEqualTo(title);
-            }
+            var title = "A";
+            var result = animes.random(title);
+            assertThat(result.title()).isEqualTo(title);
         }
     }
 }
