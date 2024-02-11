@@ -2,7 +2,7 @@
 
 Read only user login info : public / public
 
-### Dashboard - JVM / [Link](http://anime-kr.ecsimsw.com:9090/d/c20bafb4-a68d-4da3-92d2-c202a3a1f0ac/anime-kr?orgId=1&refresh=5s&from=1704878961796&to=1704879261796)
+### Dashboard - JVM / [Link](http://anime-kr.ecsimsw.com:9090/d/c20bafb4-a68d-4da3-92d2-c202a3a1f0ac/anime-kr?orgId=1&refresh=5s)
 
 ```
 - cpu / memory usage
@@ -15,7 +15,7 @@ Read only user login info : public / public
 <img width="1433" alt="image" src="https://github.com/Giggle-projects/anime-kr/assets/46060746/66421982-4a1a-445a-96ef-f4c224d7afb1">
 
 
-### Dashboard - Container / [Link](http://anime-kr.ecsimsw.com:9090/d/hr8-CooGk/docker-and-system-monitoring?orgId=1&refresh=5m&from=1704877774490&to=1704879574490)
+### Dashboard - Container / [Link](http://anime-kr.ecsimsw.com:9090/d/hr8-CooGk/docker-and-system-monitoring?orgId=1&refresh=5m)
 
 ```
 - Number of containers
